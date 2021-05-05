@@ -1,0 +1,9 @@
+{
+    "name": "mutl",
+    "displayName": "Mindustry Utilities",
+    "author": "iarkn",
+    "description": "Contains utilities for the game.",
+    "version": "1.0.0",
+    "minGameVersion": "126.2",
+    "hidden": true
+}
