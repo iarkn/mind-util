@@ -8,7 +8,7 @@ A Mindustry mod that contains useful (probably) tools or utilities.
   It's simply `Vars.enableConsole = true` and F8 for desktop. On mobile, a button with a terminal icon should appear at top-left once you loaded a world. The script fragment and pencil button will appear once you pressed the button.
 
 - Draw All Turret Range  
-  When enabled, the drawer will search for every single turret then check whether it is within the camera or not. It creates a circle with a radius of the turret's range on its position, the color is based off the turret's team color.
+  When enabled, the drawer will search for every single turret then check whether it is within the camera or not. It creates a circle with a radius of the turret's range on its position, the color is based on the turret's team color.
 
 - Draw All Unit Range (WIP)  
   In progress.

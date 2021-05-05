@@ -13,6 +13,9 @@ function configDialog() {
     main.checkPref("mutl-turretrange", false, b => c.turretRange = b);
     main.checkPref("mutl-unitrange", false, b => c.unitRange = b);
     
+    // remove the "Reset to Defaults" button.
+    main.getChildren().pop();
+    
     dialog.bottom();
     
     dialog.buttons.button("$back", Icon.left, () => {
