@@ -2,6 +2,6 @@ module.exports = {
     consoleShown: false,
     
     // settings
-    turretRange: false,
-    unitRange: false
+    turretRange: Core.settings.getBool("mutl-turretrange"),
+    unitRange: Core.settings.getBool("mutl-unitrange")
 };

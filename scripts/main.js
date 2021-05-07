@@ -1,4 +1,8 @@
-if (Vars.headless) throw "This mod can only be run client-side!";
+if (Vars.headless) {
+    Core.app.post(() => {
+        throw new Error("This mod can only be run client-side!");
+    });
+}
 
 global.mutl = {};
 
