@@ -25,18 +25,87 @@ function configDialog() {
     return dialog;
 }
 
+/** Adds a button that assigns 'unit' to selectedUnit. */
+function addUnitButton(table, unit, uinfo) {
+    table.button(new TextureRegionDrawable(unit.icon(Cicon.large)), Styles.clearTransi, () => {
+        c.selectedUnit = unit;
+        
+        uinfo.run();
+    }).size(48, 48).pad(3);
+}
+
+/** Unit-spawning configuration dialog. */
+function unitDialog() {
+    const dialog = new BaseDialog("$mutl.unitconfig");
+    const cont = dialog.cont;
+    
+    let uinfo = new RunnableAction();
+    
+    cont.table(Tex.button, t => {
+        uinfo.setRunnable(() => {
+            t.clearChildren();
+            
+            let unit = c.selectedUnit;
+            
+            t.center().top();
+            
+            t.image(new TextureRegionDrawable(unit.icon(Cicon.xlarge))).scaling(Scaling.fit);
+            
+            t.add(unit.localizedName).color(Pal.accent).padLeft(4).padBottom(4);
+            t.row();
+        });
+        
+        uinfo.run();
+    }).size(360, 420);
+    
+    if (Core.graphics.isPortrait()) cont.row();
+    
+    cont.table(Tex.button, t => {
+        t.top().left();
+        
+        t.add("$content.unit.name").color(Pal.accent).growX().padLeft(4).padBottom(4);
+        t.row();
+        
+        t.image().color(Pal.accent).growX().height(4).padLeft(4).padRight(4).padBottom(12);
+        t.row();
+        
+        t.pane(p => {
+            p.center().top();
+            
+            let r = 0;
+            
+            for (let unit of Vars.content.units().toArray()) {
+                let icon = unit.icon(Cicon.large);
+                
+                addUnitButton(p, unit, uinfo);
+                
+                if (++r % 6 == 0) p.row();
+            }
+        }).growX();
+    }).size(360, 420);
+    
+    dialog.addCloseButton();
+    
+    return dialog;
+}
+
 /** Main dialog for Mindustry Utilities. */
 function mainDialog() {
     const dialog = new BaseDialog("$mutl.utilities");
-    const cont = dialog.cont;
     
-    cont.table(Tex.button, t => {
-        t.center();
+    dialog.cont.table(Tex.button, t => {
+        t.center(); 
         t.defaults().size(300, 60);
         
         t.button("$mutl.config", Styles.cleart, () => {
             configDialog().show();
         });
+        
+        t.row();
+        
+        t.button("$mutl.spawnunit", Styles.cleart, () => {
+            unitDialog().show();
+        }).disabled(b => Vars.net.active());
     });
     
     dialog.addCloseButton();
