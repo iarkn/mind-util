@@ -1,4 +1,5 @@
-const c = global.mutl.config;
+const c = global.mutl.config,
+    tex = global.mutl.tex;
 
 Events.run(Trigger.draw, () => {
     let cx = Math.floor(Core.camera.position.x / Vars.tilesize),
@@ -61,29 +62,20 @@ Events.run(Trigger.draw, () => {
             // whether the player is within the camera range.
             if (Mathf.dst(cx, cy, px / 8, py / 8) < Mathf.dst(cw, ch)) {
                 // health status.
-                Draw.color(Pal.darkerGray);
-                Lines.swirl(px, py, unit.type.hitSize + 20, 1, -90);
-                Draw.color(Pal.health);
-                Lines.swirl(px, py, unit.type.hitSize + 20, unit.healthf(), -90);
+                tex.swirlStatus(px, py, Pal.health, unit.type.hitSize + 20, 1, unit.healthf(), -90);
                 
                 // shield and payload status.
                 if (unit.shield > 0) {
                     let shield = unit.abilities.find(a => a instanceof ForceFieldAbility);
                     let shieldf = unit.shield / shield.max / 2;
                     
-                    Draw.color(Pal.darkerGray);
-                    Lines.swirl(px, py, unit.type.hitSize + 17, 0.5, 360);
-                    Draw.color(Pal.accent);
-                    Lines.swirl(px, py, unit.type.hitSize + 17, Mathf.clamp(shieldf, 0, 0.5), 360);
+                    tex.swirlStatus(px, py, Pal.accent, unit.type.hitSize + 17, 0.5, Mathf.clamp(shieldf, 0, 0.5), 360);
                 }
                 
                 if (unit instanceof Payloadc) {
                     let payloadf = unit.payloadUsed() / unit.type.payloadCapacity / 2;
 
-                    Draw.color(Pal.darkerGray);
-                    Lines.swirl(px, py, unit.type.hitSize + 17, 0.5, 180);
-                    Draw.color(Pal.items);
-                    Lines.swirl(px, py, unit.type.hitSize + 17, Mathf.clamp(payloadf, 0, 0.5), 180);
+                    tex.swirlStatus(px, py, Pal.items, unit.type.hitSize + 17, 0.5, Mathf.clamp(payloadf, 0, 0.5), 180);
                 }
             }
         });
