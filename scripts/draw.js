@@ -16,7 +16,7 @@ Events.run(Trigger.draw, () => {
                 
                 if (block.range == null || block.range <= 0) continue;
                 
-                /* Whether the block's position is within the camera range. */
+                // whether the block's position is within the camera range.
                 if (Mathf.dst(cx, cy, tile.x, tile.y) < Mathf.dst(cw, ch)) {
                     Draw.color(build.team.color);
                     Draw.alpha(0.36);
@@ -30,12 +30,12 @@ Events.run(Trigger.draw, () => {
     
     /* Draws a circle on every unit with a radius of its range. */
     if (c.unitRange) {
-        /* Set position from bottom-left to top-right of the camera. */
+        // set position from bottom-left to top-right of the camera.
         let ux = (cx - cw / 2) * 8 - 20, uy = (cy - ch / 2) * 8 - 20;
         let uw = cw * 8 + 20, uh = ch * 8 + 20;
         
         Draw.draw(Layer.overlayUI + 0.04, () => {
-            /* Iterate every unit that is within the camera. */
+            // iterate every unit that is within the camera.
             for (let unit of Groups.unit.intersect(ux, uy, uw, uh).toArray()) {
                 let type = unit.type;
                 
@@ -50,7 +50,42 @@ Events.run(Trigger.draw, () => {
         });
     }
     
-    if (c) {
+    /* Display the status of the controlled entity, */
+    if (c.controlledStatus) {
+        if (!Vars.player.unit() || Vars.player.unit() == Nulls.unit) return;
         
+        let unit = Vars.player.unit();
+        let px = Vars.player.x, py = Vars.player.y;
+        
+        Draw.draw(Layer.overlayUI + 0.08, () => { // TODO: more statuses, especially for turrets.
+            // whether the player is within the camera range.
+            if (Mathf.dst(cx, cy, px / 8, py / 8) < Mathf.dst(cw, ch)) {
+                // health status.
+                Draw.color(Pal.darkerGray);
+                Lines.swirl(px, py, unit.type.hitSize + 20, 1, -90);
+                Draw.color(Pal.health);
+                Lines.swirl(px, py, unit.type.hitSize + 20, unit.healthf(), -90);
+                
+                // shield and payload status.
+                if (unit.shield > 0) {
+                    let shield = unit.abilities.find(a => a instanceof ForceFieldAbility);
+                    let shieldf = unit.shield / shield.max / 2;
+                    
+                    Draw.color(Pal.darkerGray);
+                    Lines.swirl(px, py, unit.type.hitSize + 17, 0.5, 360);
+                    Draw.color(Pal.accent);
+                    Lines.swirl(px, py, unit.type.hitSize + 17, Mathf.clamp(shieldf, 0, 0.5), 360);
+                }
+                
+                if (unit instanceof Payloadc) {
+                    let payloadf = unit.payloadUsed() / unit.type.payloadCapacity / 2;
+
+                    Draw.color(Pal.darkerGray);
+                    Lines.swirl(px, py, unit.type.hitSize + 17, 0.5, 180);
+                    Draw.color(Pal.items);
+                    Lines.swirl(px, py, unit.type.hitSize + 17, Mathf.clamp(payloadf, 0, 0.5), 180);
+                }
+            }
+        });
     }
 });

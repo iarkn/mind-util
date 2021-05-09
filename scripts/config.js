@@ -6,5 +6,6 @@ module.exports = {
     
     // settings
     turretRange: Core.settings.getBool("mutl-turretrange"),
-    unitRange: Core.settings.getBool("mutl-unitrange")
+    unitRange: Core.settings.getBool("mutl-unitrange"),
+    controlledStatus: Core.settings.getBool("mutl-controlledstatus")
 };

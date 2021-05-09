@@ -14,6 +14,7 @@ function configDialog() {
     
     main.checkPref("mutl-turretrange", false, b => c.turretRange = Core.settings.getBool("mutl-turretrange"));
     main.checkPref("mutl-unitrange", false, b => c.unitRange = Core.settings.getBool("mutl-unitrange"));
+    main.checkPref("mutl-controlledstatus", false, b => c.controlledStatus = Core.settings.getBool("mutl-controlledstatus"));
     
     // remove the "Reset to Defaults" button.
     main.getChildren().pop();
