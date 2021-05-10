@@ -30,6 +30,17 @@ function configDialog() {
 
 // UNIT SPAWNER
 
+/** Spawns the unit with the current configuration. */
+function spawnUnit(unit, team) {
+    for (let i = 0; i < c.spawnAmount; i++) {
+        let random = c.scatter ? Mathf.range(c.scatterRadius) : 0;
+        let x = c.selX * 8 + random,
+            y = c.selY * 8 + random;
+            
+        unit.spawn(team, x, y);
+    }
+}
+
 /** Adds a button that assigns 'unit' to config.selectedUnit. */
 function addUnitButton(table, unit, uinfo) {
     table.button(new TextureRegionDrawable(unit.icon(Cicon.large)), Styles.clearTransi, () => {
@@ -49,7 +60,7 @@ function addTeamButton(table, team, uinfo) {
 }
 
 /** Adds a text field that assigns the input to c.sel<axis>. */
-function addPosFields(table, axis, max) {
+function addPosField(table, axis, max) {
     const field = Elem.newField(c["sel" + axis], input => {
         let int = (!input || isNaN(input)) ? 0 : parseFloat(input);
         let pos = Mathf.clamp(int, 0, max);
@@ -63,7 +74,63 @@ function addPosFields(table, axis, max) {
     table.add(field).size(120, 40).pad(3);
 }
 
-/** Unit-spawning configuration dialog. */
+/** More spawn options for the unit spawner. */
+function spawnOptionsDialog() {
+    const dialog = new Dialog("$mutl.header.spawnoptions");
+    const cont = dialog.cont;
+    
+    let runnable = new RunnableAction();
+    
+    dialog.setFillParent(true);
+    dialog.closeOnBack();
+    
+    cont.pane(p => {
+        runnable.setRunnable(() => {
+            p.clearChildren();
+            
+            p.center();
+            
+            p.add(dialog.title).growX().padBottom(12);
+            p.row();
+            
+            p.table(null, t => {
+                t.add("$option.mutl-spawnamount.name").width(120).padRight(6);
+                t.field(c.spawnAmount, TextField.TextFieldFilter.digitsOnly, input => {
+                    if (!input || isNaN(input)) return;
+                    
+                    c.spawnAmount = parseInt(input);
+                });
+            }).row();
+            
+            p.table(null, t => {
+                t.add("$option.mutl-scatterradius.name").width(120).padRight(6);
+                t.field(c.scatterRadius, TextField.TextFieldFilter.digitsOnly, input => {
+                    if (!input || isNaN(input)) return;
+                    
+                    c.scatterRadius = parseFloat(input);
+                }).disabled(b => !c.scatter);
+            }).padBottom(12).row();
+            
+            p.check("$option.mutl-scatter.name", c.scatter, b => {
+                c.scatter = b;
+                
+                runnable.run(); // reset scatter radius field.
+            }).growX();
+        });
+        
+        runnable.run();
+    }).width(420);
+
+    dialog.bottom();
+    
+    dialog.buttons.button("$back", Icon.left, () => {
+        dialog.hide();
+    }).size(210, 64);
+    
+    return dialog;
+}
+
+/** Unit spawner configuration dialog. */
 function unitDialog() {
     const dialog = new BaseDialog("$mutl.title.unitconfig");
     const cont = dialog.cont;
@@ -92,6 +159,7 @@ function unitDialog() {
                 
                 let r = 0;
                 
+                // team scroll pane
                 t.pane(p => {
                     for (let team of Team.all) {
                         addTeamButton(p, team, uinfo);
@@ -102,13 +170,14 @@ function unitDialog() {
                 
                 t.row();
                 
+                // position configuration
                 t.table(null, t2 => {
                     t2.table(null, t3 => {
                         posinfo.setRunnable(() => {
                             t3.clearChildren();
                             
-                            addPosFields(t3, "X", Vars.world.width());
-                            addPosFields(t3, "Y", Vars.world.height());
+                            addPosField(t3, "X", Vars.world.width());
+                            addPosField(t3, "Y", Vars.world.height());
                         });
                         
                         posinfo.run();
@@ -129,11 +198,15 @@ function unitDialog() {
         
         ti.row();
         
-        // bottom-left panel, spawn unit and unit info.
+        // bottom-left panel, spawn unit, options, and info.
         ti.table(null, t => {
             t.button("$mutl.spawnunit", Styles.defaultt, () => {
-                c.selectedUnit.spawn(c.selectedTeam, c.selX * 8, c.selY * 8);
-            }).size(354, 60).padRight(6);
+                spawnUnit(c.selectedUnit, c.selectedTeam);
+            }).size(288, 60).padRight(6);
+            
+            t.button(Icon.pencil, Styles.defaulti, () => {
+                spawnOptionsDialog().show();
+            }).size(60, 60).padRight(6);
             
             t.button(Icon.info, Styles.defaulti, () => {
                 Vars.ui.content.show(c.selectedUnit);
@@ -147,12 +220,13 @@ function unitDialog() {
     cont.table(Tex.button, t => {
         t.top().left();
         
-        t.add("$content.unit.name").color(Pal.accent).growX().padLeft(4).padBottom(4);
+        t.add("$mutl.header.units").color(Pal.accent).growX().padLeft(4).padBottom(4);
         t.row();
         
         t.image().color(Pal.accent).growX().height(4).padLeft(4).padRight(4).padBottom(12);
         t.row();
         
+        // unit selection
         t.pane(p => {
             p.center().top();
             
