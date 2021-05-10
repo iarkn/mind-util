@@ -1,6 +1,6 @@
 # Mindustry Utilities
 
-A Mindustry mod that contains useful (probably) tools or utilities.
+A Mindustry mod that contains useful (probably) tools or utilities. For more information, visit the wiki of this repository [here](https://github.com/Receptea/mind-util/wiki).
 
 ## Features
 
