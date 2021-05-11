@@ -77,14 +77,13 @@ function addPosField(table, axis, max) {
 /** More spawn options for the unit spawner. */
 function spawnOptionsDialog() {
     const dialog = new Dialog("$mutl.header.spawnoptions");
-    const cont = dialog.cont;
-    
+
     let runnable = new RunnableAction();
     
     dialog.setFillParent(true);
     dialog.closeOnBack();
     
-    cont.pane(p => {
+    dialog.cont.pane(p => {
         runnable.setRunnable(() => {
             p.clearChildren();
             
