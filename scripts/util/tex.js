@@ -18,8 +18,11 @@ function drawStatus(x, y, unit) {
     swirlStatus(x, y, Pal.health, unit.type.hitSize + 20, 1, unit.healthf(), -90);
                 
     // shield and payload status
-    if (unit.shield > 0) {
+    if (unit.shield != null && unit.shield > 0) {
         let shield = unit.abilities.find(a => a instanceof ForceFieldAbility);
+        
+        if (!shield) return; 
+        
         let shieldf = unit.shield / shield.max / 2;
                     
         swirlStatus(x, y, Pal.accent, unit.type.hitSize + 17, 0.5, Mathf.clamp(shieldf, 0, 0.5), 360);

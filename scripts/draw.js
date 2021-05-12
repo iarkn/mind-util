@@ -6,6 +6,9 @@ Events.run(Trigger.draw, () => {
         cy = Math.floor(Core.camera.position.y / Vars.tilesize);
     let cw = Math.floor(Core.camera.width / Vars.tilesize),
         ch = Math.floor(Core.camera.height / Vars.tilesize);
+    // set position from bottom-left to top-right of the camera.
+    let ux = (cx - cw / 2) * 8 - 30, uy = (cy - ch / 2) * 8 - 30;
+    let uw = cw * 8 + 30, uh = ch * 8 + 30;
     
     /* Draws a circle with a radius of a turret's range for every turret. */
     if (c.turretRange) {
@@ -31,16 +34,12 @@ Events.run(Trigger.draw, () => {
     
     /* Draws a circle on every unit with a radius of its range. */
     if (c.unitRange) {
-        // set position from bottom-left to top-right of the camera.
-        let ux = (cx - cw / 2) * 8 - 30, uy = (cy - ch / 2) * 8 - 30;
-        let uw = cw * 8 + 30, uh = ch * 8 + 30;
-        
         Draw.draw(Layer.overlayUI + 0.04, () => {
             // iterate every unit that is within the camera.
             for (let unit of Groups.unit.intersect(ux, uy, uw, uh).toArray()) {
                 let type = unit.type;
                 
-                if (!type.range || type.range <= 0 || !type.hasWeapons()) continue;
+                if (unit.dead || !type.range || type.range <= 0) continue;
                 
                 Draw.color(unit.team.color);
                 Draw.alpha(0.36);
@@ -62,6 +61,17 @@ Events.run(Trigger.draw, () => {
             // whether the player is within the camera range.
             if (Mathf.dst(cx, cy, px / 8, py / 8) < Mathf.dst(cw, ch)) {
                 tex.drawStatus(px, py, unit);
+            }
+        });
+    }
+    
+    /* Display the status of all entity except for the player. */
+    if (c.allStatus) {
+        Draw.draw(Layer.overlayUI + 0.07, () => {
+            for (let unit of Groups.unit.intersect(ux, uy, uw, uh).toArray()) {
+                if (unit.dead || unit == Vars.player.unit()) continue;
+                
+                tex.drawStatus(unit.x, unit.y, unit);
             }
         });
     }

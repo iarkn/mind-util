@@ -12,5 +12,6 @@ module.exports = {
     // settings
     turretRange: Core.settings.getBool("mutl-turretrange"),
     unitRange: Core.settings.getBool("mutl-unitrange"),
-    controlledStatus: Core.settings.getBool("mutl-controlledstatus")
+    controlledStatus: Core.settings.getBool("mutl-controlledstatus"),
+    allStatus: Core.settings.getBool("mutl-allstatus")
 };
