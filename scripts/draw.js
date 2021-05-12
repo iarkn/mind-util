@@ -32,8 +32,8 @@ Events.run(Trigger.draw, () => {
     /* Draws a circle on every unit with a radius of its range. */
     if (c.unitRange) {
         // set position from bottom-left to top-right of the camera.
-        let ux = (cx - cw / 2) * 8 - 20, uy = (cy - ch / 2) * 8 - 20;
-        let uw = cw * 8 + 20, uh = ch * 8 + 20;
+        let ux = (cx - cw / 2) * 8 - 30, uy = (cy - ch / 2) * 8 - 30;
+        let uw = cw * 8 + 30, uh = ch * 8 + 30;
         
         Draw.draw(Layer.overlayUI + 0.04, () => {
             // iterate every unit that is within the camera.
@@ -61,22 +61,7 @@ Events.run(Trigger.draw, () => {
         Draw.draw(Layer.overlayUI + 0.08, () => { // TODO: more statuses, especially for turrets.
             // whether the player is within the camera range.
             if (Mathf.dst(cx, cy, px / 8, py / 8) < Mathf.dst(cw, ch)) {
-                // health status.
-                tex.swirlStatus(px, py, Pal.health, unit.type.hitSize + 20, 1, unit.healthf(), -90);
-                
-                // shield and payload status.
-                if (unit.shield > 0) {
-                    let shield = unit.abilities.find(a => a instanceof ForceFieldAbility);
-                    let shieldf = unit.shield / shield.max / 2;
-                    
-                    tex.swirlStatus(px, py, Pal.accent, unit.type.hitSize + 17, 0.5, Mathf.clamp(shieldf, 0, 0.5), 360);
-                }
-                
-                if (unit instanceof Payloadc) {
-                    let payloadf = unit.payloadUsed() / unit.type.payloadCapacity / 2;
-
-                    tex.swirlStatus(px, py, Pal.items, unit.type.hitSize + 17, 0.5, Mathf.clamp(payloadf, 0, 0.5), 180);
-                }
+                tex.drawStatus(px, py, unit);
             }
         });
     }

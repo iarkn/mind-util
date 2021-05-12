@@ -9,7 +9,14 @@ global.mutl = {};
 Vars.enableConsole = true;
 
 const contents = [
-    "tex", "config",
+    {
+        name: "util",
+        contains: ["tex", "config"]
+    },
+    {
+        name: "ui",
+        contains: ["unitspawner"]
+    },
     
     "ui", "draw"
 ];
@@ -28,7 +35,7 @@ function handle(array, path) {
     for (let a of array) {
         if (typeof a === "object") { // if 'a' is an object.
             pathf.push(a.name);
-            let c = handle(a.contents, pathf);
+            let c = handle(a.contains, pathf);
             
             // merge the result.
             result = result.concat(c);
