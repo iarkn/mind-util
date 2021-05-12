@@ -48,7 +48,7 @@ function mainDialog() {
         }).disabled(b => Vars.net.active()).row();
         
         t.button("$mutl.option.modding", Styles.cleart, () => {
-            // TODO
+            Vars.ui.showInfoText("Unavailable", "This section is still under development.");
         });
     });
     
