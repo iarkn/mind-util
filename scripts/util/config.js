@@ -8,6 +8,9 @@ module.exports = {
     spawnAmount: 1,
     scatter: false,
     scatterRadius: 40,
+    worldDialogMode: "info",
+    waveRange: 30,
+    showPrevWave: false,
     
     // settings
     turretRange: Core.settings.getBool("mutl-turretrange"),

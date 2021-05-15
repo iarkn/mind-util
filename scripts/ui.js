@@ -1,4 +1,6 @@
-const c = global.mutl.config, unitDialog = global.mutl.unitspawner;
+const c = global.mutl.config;
+const unitDialog = global.mutl.unitspawner,
+    worldDialog = global.mutl.world;
 
 // CONFIG
 
@@ -46,6 +48,10 @@ function mainDialog() {
         t.button("$mutl.option.spawnunit", Styles.cleart, () => {
             unitDialog().show();
         }).disabled(b => Vars.net.active()).row();
+        
+        t.button("$mutl.option.world", Styles.cleart, () => {
+            worldDialog().show();
+        }).row();
         
         t.button("$mutl.option.modding", Styles.cleart, () => {
             Vars.ui.showInfoText("Unavailable", "This section is still under development.");

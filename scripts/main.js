@@ -15,7 +15,7 @@ const contents = [
     },
     {
         name: "ui",
-        contains: ["unitspawner", "modding"]
+        contains: ["unitspawner", "world", "modding"]
     },
     
     "ui", "draw"

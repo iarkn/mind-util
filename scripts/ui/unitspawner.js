@@ -107,7 +107,7 @@ function unitDialog() {
     let uinfo = new RunnableAction(), posinfo = new RunnableAction();
     
     cont.table(null, ti => {
-        // top-left panel, unit configuration.
+        // top-left panel for unit configuration.
         ti.table(Tex.button, t => {
             uinfo.setRunnable(() => {
                 let unit = c.selectedUnit, team = c.selectedTeam;
@@ -167,7 +167,7 @@ function unitDialog() {
         
         ti.row();
         
-        // bottom-left panel, spawn unit, options, and info.
+        // bottom-left buttons: spawn unit, spawn options, and unit info.
         ti.table(null, t => {
             t.button("$mutl.spawnunit", Styles.defaultt, () => {
                 spawnUnit(c.selectedUnit, c.selectedTeam);
@@ -185,8 +185,8 @@ function unitDialog() {
     
     if (Core.graphics.isPortrait()) cont.row();
     
-    // right panel, unit selection.
-        cont.table(Tex.button, t => {
+    // right (or bottom, on portrait) panel for unit selection.
+    cont.table(Tex.button, t => {
         t.top().left();
         
         t.add("$mutl.header.units").color(Pal.accent).growX().padLeft(4).padBottom(4);
