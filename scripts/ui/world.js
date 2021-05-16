@@ -26,16 +26,15 @@ function addSpawnGroup(table, group, wave) {
 }
 
 /** Adds a table or a line containing spawn groups on the specified wave. */
-function addWaveLine(table, count) {
-    // this is totally useless.
-    let wave = count + 1;
+function addWaveLine(table, wave) {
+    let color = wave == Vars.state.wave ? Color.white : Pal.accent;
     
     table.top().left();
     
     table.table(null, t => {
         t.left();
         
-        t.label(() => wave.toString()).color(Pal.accent).size(60, 60).padRight(6);
+        t.label(() => wave.toString()).color(color).size(60, 60).padRight(6);
         
         for (let group of Vars.state.rules.spawns.toArray()) {
             // skip to next group if this one doesn't spawn at this wave.
@@ -59,7 +58,7 @@ function wavePanel(table) {
                 p.clearChildren();
                 p.top().left();
                 
-                let start = c.showPrevWave ? 0 : Vars.state.wave - 1,
+                let start = c.showPrevWave ? 1 : Vars.state.wave,
                     end = Vars.state.wave + c.waveRange;
                 
                 for (let i = start; i < end; i++) {
