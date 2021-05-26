@@ -13,7 +13,7 @@ function spawnUnit(unit, team) {
 
 /** Adds a button that assigns 'unit' to config.selectedUnit. */
 function addUnitButton(table, unit, uinfo) {
-    table.button(new TextureRegionDrawable(unit.icon(Cicon.large)), Styles.clearTransi, () => {
+    table.button(cons(b => b.image(unit.icon(Cicon.medium)).size(42).scaling(Scaling.fit)), Styles.clearTransi, () => {
         c.selectedUnit = unit;
         
         uinfo.run();
@@ -116,7 +116,7 @@ function unitDialog() {
                 t.center().top();
                 
                 t.table(null, t2 => {
-                    t2.image(new TextureRegionDrawable(unit.icon(Cicon.xlarge))).scaling(Scaling.fit);
+                    t2.image(new TextureRegionDrawable(unit.icon(Cicon.medium))).size(42).scaling(Scaling.fit);
                     
                     t2.add(unit.localizedName).color(team.color).padLeft(4).padBottom(4);
                 }).size(420, 60);

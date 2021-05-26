@@ -11,7 +11,7 @@ function worldInfo(table) {
 /** Adds a table containing a spawn group of the specified wave. */
 function addSpawnGroup(table, group, wave, showShield) {
     table.stack(
-        new Image(group.type.icon(Cicon.medium)),
+        new Image(group.type.icon(Cicon.medium)).setScaling(Scaling.fit),
         new Table(null, t => {
             t.bottom().left();
             
@@ -180,6 +180,8 @@ function worldDialog() {
     const cont = dialog.cont;
     
     let mainrun = new RunnableAction();
+
+    if (!Vars.state.waves) c.worldDialogMode = "info";
 
     mainrun.setRunnable(() => {
         cont.clearChildren();
