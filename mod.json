@@ -2,8 +2,8 @@
     "name": "mutl",
     "displayName": "Mindustry Utilities",
     "author": "iarkn",
-    "description": "Contains useful (probably) features or utilities:\n  - console\n  - unit spawner\n  - entity display\n  - and more...\n\nPress F9 to access menu utilities on desktop. On mobile, tap the button with a wrench icon once you have loaded a world.\n\nFor more information, please visit the wiki section on this mod's repository.",
-    "version": "1.0.0",
+    "description": "Contains useful (probably) features or utilities:\n  - console\n  - unit spawner\n  - entity display\n  - and more...\n\nPress F9 to access utilities menu on desktop. On mobile, tap the button with a wrench icon once you have loaded a world.\n\nFor more information, please visit <https://github.com/Receptea/mind-util/wiki>.",
+    "version": "1.1.0",
     "minGameVersion": "126.2",
     "hidden": true
 }

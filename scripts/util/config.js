@@ -11,6 +11,7 @@ module.exports = {
     worldDialogMode: "info",
     waveRange: 30,
     showPrevWave: false,
+    pickedWave: -1,
     
     // settings
     turretRange: Core.settings.getBool("mutl-turretrange"),

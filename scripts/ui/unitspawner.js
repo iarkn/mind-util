@@ -17,7 +17,7 @@ function addUnitButton(table, unit, uinfo) {
         c.selectedUnit = unit;
         
         uinfo.run();
-    }).size(48, 48).pad(3);
+    }).size(48).pad(3);
 }
 
 /** Adds a button that assigns 'team' to config.selectedTeam. */
@@ -26,7 +26,7 @@ function addTeamButton(table, team, uinfo) {
         c.selectedTeam = team;
         
         uinfo.run();
-    }).size(48, 48).pad(3);
+    }).size(48).pad(3);
 }
 
 /** Adds a text field that assigns the input to c.sel<axis>. */
@@ -158,7 +158,7 @@ function unitDialog() {
                         c.selY = Math.floor(Vars.player.y / 8);
                             
                         posinfo.run();
-                    }).size(48, 48);
+                    }).size(48);
                 }).width(360);
             });
             
@@ -175,13 +175,13 @@ function unitDialog() {
             
             t.button(Icon.pencil, Styles.defaulti, () => {
                 spawnOptionsDialog().show();
-            }).size(60, 60).padRight(6);
+            }).size(60).padRight(6);
             
             t.button(Icon.info, Styles.defaulti, () => {
                 Vars.ui.content.show(c.selectedUnit);
-            }).size(60, 60);
+            }).size(60);
         }).size(420, 60);
-    }).size(420, 420);
+    }).size(420);
     
     if (Core.graphics.isPortrait()) cont.row();
     
@@ -209,7 +209,7 @@ function unitDialog() {
                 if (++r % 6 == 0) p.row();
             }
         }).growX();
-    }).size(420, 420);
+    }).size(420);
     
     dialog.addCloseButton();
     

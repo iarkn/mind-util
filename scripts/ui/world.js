@@ -8,13 +8,8 @@ function worldInfo(table) {
     // TODO
 }
 
-/** Very unnecessary graph for the specified wave. */
-function waveGraph(table) {
-    // TODO
-}
-
 /** Adds a table containing a spawn group of the specified wave. */
-function addSpawnGroup(table, group, wave) {
+function addSpawnGroup(table, group, wave, showShield) {
     table.stack(
         new Image(group.type.icon(Cicon.medium)),
         new Table(null, t => {
@@ -22,20 +17,109 @@ function addSpawnGroup(table, group, wave) {
             
             t.label(() => group.getSpawned(wave).toString());
         })
-    ).size(42, 42).pad(4);
+    ).size(42).pad(4);
+    
+    if (showShield) {
+        table.stack(
+            new Image(Icon.defense),
+            new Table(null, t => {
+                t.bottom().left();
+                t.label(() => group.getShield(wave).toString()).color(Pal.accent);
+            })
+        ).size(42).pad(4).padRight(8);
+    }
+}
+
+/** Very unnecessary information for the current picked wave. */
+function wavePicked(table) {
+    let waverun = new RunnableAction();
+    
+    waverun.setRunnable(() => {
+        table.clearChildren();
+
+        // set picked wave to current wave for the first time.
+        if (c.pickedWave < 0) c.pickedWave = Vars.state.wave - 1;
+
+        let count = c.pickedWave;
+        let atotal = 0, htotal = 0;
+        
+        table.table(null, t => {
+            t.defaults().padLeft(4);
+            t.top().left();
+            
+            t.add(Core.bundle.format("mutl.header.currentwave", count + 1)).color(Pal.accent).growX().padBottom(4);
+            t.row();
+            
+            t.image().color(Pal.accent).growX().height(4).padRight(4).padBottom(12);
+            t.row();
+            
+            t.add("$mutl.spawns").growX();
+            t.row();
+            
+            let r = 0;
+            
+            // spawn group preview
+            t.pane(p => {
+                p.left();
+                
+                for (let group of Vars.state.rules.spawns.toArray()) {
+                    if (group.getSpawned(count) <= 0) continue;
+                    
+                    addSpawnGroup(p, group, count, true);
+                    
+                    if (++r % 4 == 0) p.row();
+                    
+                    atotal += group.getSpawned(count);
+                }
+            }).growX().height(120).padBottom(12);
+            t.row();
+            
+            t.add(Core.bundle.format("mutl.totalamount", atotal)).growX();
+            t.row();
+            
+            t.add(Core.bundle.format("mutl.spawncount", Vars.spawner.countSpawns())).growX();
+            t.row();
+            
+            t.table(null, t2 => {
+                t2.bottom().right();
+                
+                // reset picked wave to the current wave.
+                t2.button(Icon.refresh, Styles.cleari, () => {
+                    c.pickedWave = Vars.state.wave - 1;
+                    waverun.run();
+                }).size(48).padRight(4);
+                
+                // select previous wave.
+                t2.button(Icon.left, Styles.cleari, () => {
+                    if (c.pickedWave - 1 < 0) return;
+                    
+                    c.pickedWave--;
+                    waverun.run();
+                }).size(48).padRight(4);
+                
+                // select next wave.
+                t2.button(Icon.right, Styles.cleari, () => {
+                    c.pickedWave++;
+                    waverun.run();
+                }).size(48);
+            }).grow();
+        }).grow();
+    });
+    
+    waverun.run();
 }
 
 /** Adds a table or a line containing spawn groups on the specified wave. */
 function addWaveLine(table, wave) {
     let count = wave + 1;
-    let color = count == Vars.state.wave ? Color.white : Pal.accent;
+    let color = count == Vars.state.wave ? Color.white : Color.gray;
     
     table.top().left();
     
     table.table(null, t => {
         t.left();
         
-        t.label(() => count.toString()).color(color).size(60, 60).padRight(6);
+        t.label(() => count.toString()).color(color).size(60).padRight(6);
         
         for (let group of Vars.state.rules.spawns.toArray()) {
             // skip to next group if this one doesn't spawn at this wave.
@@ -59,7 +143,7 @@ function wavePanel(table) {
                 p.clearChildren();
                 p.top().left();
                 
-                let start = c.showPrevWave ? 0 : Vars.state.wave,
+                let start = c.showPrevWave ? 0 : Vars.state.wave - 1,
                     end = Vars.state.wave + c.waveRange;
                 
                 for (let i = start; i < end; i++) {
@@ -69,7 +153,6 @@ function wavePanel(table) {
             
             waverun.run();
         }).size(390, 340);
-        
         t.row();
         
         // wave preview options
@@ -85,7 +168,6 @@ function wavePanel(table) {
             
             t2.check("$option.mutl-showprevwave.name", c.showPrevWave, b => {
                 c.showPrevWave = b;
-                
                 waverun.run();
             }).width(190);
         }).height(60).growX();
@@ -108,7 +190,7 @@ function worldDialog() {
             c.worldDialogMode == "info" ? rulesList(t)
                 : c.worldDialogMode == "wave" ? wavePanel(t)
                 : null;
-        }).size(420, 420);
+        }).size(420);
         
         if (Core.graphics.isPortrait()) cont.row();
         
@@ -117,10 +199,9 @@ function worldDialog() {
             // wave graph depending on the dialog mode.
             ti.table(Tex.button, t => {
                 c.worldDialogMode == "info" ? worldInfo(t)
-                    : c.worldDialogMode == "wave" ? waveGraph(t)
+                    : c.worldDialogMode == "wave" ? wavePicked(t)
                     : null;
             }).size(420, 354).padBottom(6);
-            
             ti.row();
             
             // buttons to choose one of the two dialog modes.
@@ -137,7 +218,7 @@ function worldDialog() {
                     mainrun.run();
                 }).disabled(b => !Vars.state.rules.waves);
             }).size(420, 60);
-        }).size(420, 420);
+        }).size(420);
     });
     
     mainrun.run();

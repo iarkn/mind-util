@@ -10,13 +10,11 @@ function swirlStatus(x, y, color, radius, prog1, prog2, angle) {
     Lines.swirl(x, y, radius, prog2, angle);
 }
 
-/** Draws the status of the specified unit.
- *  @param {Unit} unit - the unit.
- */
+/** Draws the status of the specified unit. */
 function drawStatus(x, y, unit) {
     // health status
     swirlStatus(x, y, Pal.health, unit.type.hitSize + 20, 1, unit.healthf(), -90);
-                
+
     // shield and payload status
     if (unit.shield != null && unit.shield > 0) {
         let shield = unit.abilities.find(a => a instanceof ForceFieldAbility);
