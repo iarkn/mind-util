@@ -10,12 +10,13 @@ function worldInfo(table) {
 
 /** Adds a table containing a spawn group of the specified wave. */
 function addSpawnGroup(table, group, wave, showShield) {
+    let color = group.effect == StatusEffects.boss ? Pal.health : Color.white;
+
     table.stack(
         new Image(group.type.icon(Cicon.medium)).setScaling(Scaling.fit),
         new Table(null, t => {
             t.bottom().left();
-            
-            t.label(() => group.getSpawned(wave).toString());
+            t.label(() => group.getSpawned(wave).toString()).color(color);
         })
     ).size(42).pad(4);
     
@@ -128,7 +129,6 @@ function addWaveLine(table, wave) {
             addSpawnGroup(t, group, wave);
         }
     }).growX().height(60);
-    
     table.row();
 }
 

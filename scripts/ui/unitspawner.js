@@ -4,8 +4,7 @@ const c = global.mutl.config;
 function spawnUnit(unit, team) {
     for (let i = 0; i < c.spawnAmount; i++) {
         let random = c.scatter ? Mathf.range(c.scatterRadius) : 0;
-        let x = c.selX * 8 + random,
-            y = c.selY * 8 + random;
+        let x = c.selX * 8 + random, y = c.selY * 8 + random;
             
         unit.spawn(team, x, y);
     }
@@ -115,7 +114,7 @@ function unitDialog() {
                 t.table(null, t2 => {
                     t2.image(new TextureRegionDrawable(unit.icon(Cicon.medium))).size(42).scaling(Scaling.fit);
                     
-                    t2.add(unit.localizedName).color(team.color).padLeft(4).padBottom(4);
+                    t2.add(unit.localizedName).color(team.color).padLeft(8).padBottom(4);
                 }).size(420, 60);
                 t.row();
                 
@@ -159,7 +158,6 @@ function unitDialog() {
             
             uinfo.run();
         }).size(420, 354).padBottom(6);
-        
         ti.row();
         
         // bottom-left buttons: spawn unit, spawn options, and unit info.
