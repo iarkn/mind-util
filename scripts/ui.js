@@ -97,7 +97,7 @@ if (Vars.mobile) {
     });
 } else {
     /* ...or add a listener for the F9 key on desktop. */
-    Events.on(Trigger.update.class, e => {
+    Events.run(Trigger.update, () => {
         // TODO: make it customizable.
         if (Vars.state.isGame() && Core.input.keyTap(Packages.arc.input.KeyCode.f9)) {
             mainDialog().show();

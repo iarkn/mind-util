@@ -15,7 +15,6 @@ function spawnUnit(unit, team) {
 function addUnitButton(table, unit, uinfo) {
     table.button(cons(b => b.image(unit.icon(Cicon.medium)).size(42).scaling(Scaling.fit)), Styles.clearTransi, () => {
         c.selectedUnit = unit;
-        
         uinfo.run();
     }).size(48).pad(3);
 }
@@ -24,7 +23,6 @@ function addUnitButton(table, unit, uinfo) {
 function addTeamButton(table, team, uinfo) {
     table.button(cons(b => b.image().color(team.color).grow()), Styles.modsb, () => {
         c.selectedTeam = team;
-        
         uinfo.run();
     }).size(48).pad(3);
 }
@@ -82,7 +80,6 @@ function spawnOptionsDialog() {
             
             p.check("$option.mutl-scatter.name", c.scatter, b => {
                 c.scatter = b;
-                
                 runnable.run(); // reset scatter radius field.
             }).growX();
         });
@@ -120,7 +117,6 @@ function unitDialog() {
                     
                     t2.add(unit.localizedName).color(team.color).padLeft(4).padBottom(4);
                 }).size(420, 60);
-                
                 t.row();
                 
                 t.image().color(team.color).growX().height(4).padLeft(4).padRight(4).padBottom(12);
@@ -136,7 +132,6 @@ function unitDialog() {
                         if (++r % 6 == 0) p.row();
                     }
                 }).size(360, 160).padBottom(12);
-                
                 t.row();
                 
                 // position configuration
@@ -202,8 +197,6 @@ function unitDialog() {
             let r = 0;
             
             for (let unit of Vars.content.units().toArray()) {
-                let icon = unit.icon(Cicon.large);
-                
                 addUnitButton(p, unit, uinfo);
                 
                 if (++r % 6 == 0) p.row();
