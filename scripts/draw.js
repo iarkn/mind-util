@@ -21,7 +21,7 @@ Events.run(Trigger.draw, () => {
                 // whether the block's position is within the camera range.
                 if (Mathf.dst(cx, cy, tile.x, tile.y) < Mathf.dst(cw, ch)) {
                     Draw.color(build.team.color);
-                    Draw.alpha(0.36);
+                    Draw.alpha(build.isShooting() ? 0.66 : 0.36);
                     
                     // Fill.circle(build.x, build.y, block.range);
                     Lines.circle(build.x, build.y, block.range);
