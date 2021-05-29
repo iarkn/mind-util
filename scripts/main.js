@@ -10,11 +10,11 @@ Vars.enableConsole = true;
 
 const contents = [
     {
-        name: "util",
+        name: "util/",
         contains: ["tex", "config"]
     },
     {
-        name: "ui",
+        name: "ui/",
         contains: ["unitspawner", "world", "modding"]
     },
     
@@ -41,7 +41,7 @@ function handle(array, path) {
             result = result.concat(c);
             pathf.pop();
         } else { // if 'a' is an array of contents.
-            result.push(pathf.join("/") + "/" + a);
+            result.push("mutl/" + pathf.join("/") + a);
         }
     }
 
@@ -51,6 +51,6 @@ function handle(array, path) {
 for (let file of handle(contents)) {
     let name = file.split("/").pop();
     
-    require("mutl/" + file);
-    global.mutl[name] = require("mutl/" + file);
+    require(file);
+    global.mutl[name] = require(file);
 }
