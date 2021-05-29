@@ -71,7 +71,7 @@ function setupConsole(shown) {
     
     frag.button(Icon.pencil, Styles.clearTransi, () => {
         frag.toggle();
-    }).size(48, 48);
+    }).size(48);
     
     frag.visibility = () => shown;
 }

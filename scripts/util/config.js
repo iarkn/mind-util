@@ -8,6 +8,7 @@ module.exports = {
     spawnAmount: 1,
     scatter: false,
     scatterRadius: 40,
+    // world dialog
     worldDialogMode: "info",
     waveRange: 30,
     showPrevWave: false,

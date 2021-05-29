@@ -51,6 +51,6 @@ function handle(array, path) {
 for (let file of handle(contents)) {
     let name = file.split("/").pop();
     
-    require(file);
-    global.mutl[name] = require(file);
+    require("mutl/" + file);
+    global.mutl[name] = require("mutl/" + file);
 }
