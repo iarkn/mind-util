@@ -1,6 +1,6 @@
 /** Draws two layer of swirls.
  *  @param {number} prog1 - 0 to 1, completition of the base swirl.
- *  @param {number} prog2 - 0 to 1, completition of the second swirl.
+ *  @param {number} prog2 - 0 to 1, completition of the top swirl.
  */
 function swirlStatus(x, y, color, radius, prog1, prog2, angle) {
     Draw.color(Pal.darkerGray);

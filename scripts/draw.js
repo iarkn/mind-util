@@ -2,10 +2,8 @@ const c = global.mutl.config,
     tex = global.mutl.tex;
 
 Events.run(Trigger.draw, () => {
-    let cx = Math.floor(Core.camera.position.x / Vars.tilesize),
-        cy = Math.floor(Core.camera.position.y / Vars.tilesize);
-    let cw = Math.floor(Core.camera.width / Vars.tilesize),
-        ch = Math.floor(Core.camera.height / Vars.tilesize);
+    let cx = Math.floor(Core.camera.position.x / 8), cy = Math.floor(Core.camera.position.y / 8);
+    let cw = Math.floor(Core.camera.width / 8), ch = Math.floor(Core.camera.height / 8);
     // set position from bottom-left to top-right of the camera.
     let ux = (cx - cw / 2) * 8 - 30, uy = (cy - ch / 2) * 8 - 30;
     let uw = cw * 8 + 30, uh = ch * 8 + 30;
@@ -57,7 +55,7 @@ Events.run(Trigger.draw, () => {
         let unit = Vars.player.unit();
         let px = Vars.player.x, py = Vars.player.y;
         
-        Draw.draw(Layer.overlayUI + 0.08, () => { // TODO: more statuses, especially for turrets.
+        Draw.draw(Layer.overlayUI + 0.08, () => {
             // whether the player is within the camera range.
             if (Mathf.dst(cx, cy, px / 8, py / 8) < Mathf.dst(cw, ch)) {
                 tex.drawStatus(px, py, unit);

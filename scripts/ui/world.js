@@ -1,12 +1,28 @@
 const c = global.mutl.config;
 
+// INFO SECTION
+
 function rulesList(table) {
-    // TODO
+    table.top().left();
+            
+    table.add("$mutl.header.rules").color(Pal.accent).growX().padLeft(4).padBottom(4);
+    table.row();
+            
+    table.image().color(Pal.accent).growX().height(4).padLeft(4).padRight(4).padBottom(12);
+    table.row();
 }
 
 function worldInfo(table) {
-    // TODO
+    table.top().left();
+            
+    table.add("$mutl.header.worldinfo").color(Pal.accent).growX().padLeft(4).padBottom(4);
+    table.row();
+            
+    table.image().color(Pal.accent).growX().height(4).padLeft(4).padRight(4).padBottom(12);
+    table.row();
 }
+
+// WAVE SECTION
 
 /** Adds a table containing a spawn group of the specified wave. */
 function addSpawnGroup(table, group, wave, showShield) {
@@ -33,10 +49,11 @@ function addSpawnGroup(table, group, wave, showShield) {
 
 /** Very unnecessary information for the current picked wave. */
 function wavePicked(table) {
+    let t = table;
     let waverun = new RunnableAction();
     
     waverun.setRunnable(() => {
-        table.clearChildren();
+        t.clearChildren();
 
         // set picked wave to current wave for the first time.
         if (c.pickedWave < 0) c.pickedWave = Vars.state.wave - 1;
@@ -44,66 +61,64 @@ function wavePicked(table) {
         let count = c.pickedWave;
         let atotal = 0, htotal = 0;
         
-        table.table(null, t => {
-            t.defaults().padLeft(4);
-            t.top().left();
+        t.defaults().padLeft(4);
+        t.top().left();
             
-            t.add(Core.bundle.format("mutl.header.currentwave", count + 1)).color(Pal.accent).growX().padBottom(4);
-            t.row();
+        t.add(Core.bundle.format("mutl.header.currentwave", count + 1)).color(Pal.accent).growX().padBottom(4);
+        t.row();
             
-            t.image().color(Pal.accent).growX().height(4).padRight(4).padBottom(12);
-            t.row();
+        t.image().color(Pal.accent).growX().height(4).padRight(4).padBottom(12);
+        t.row();
             
-            t.add("$mutl.spawns").growX();
-            t.row();
+        t.add("$mutl.spawns").growX();
+        t.row();
             
-            let r = 0;
+        let r = 0;
             
-            // spawn group preview
-            t.pane(p => {
-                p.left();
+        // spawn group preview
+        t.pane(p => {
+            p.left();
                 
-                for (let group of Vars.state.rules.spawns.toArray()) {
-                    if (group.getSpawned(count) <= 0) continue;
+            for (let group of Vars.state.rules.spawns.toArray()) {
+                if (group.getSpawned(count) <= 0) continue;
                     
-                    addSpawnGroup(p, group, count, true);
+                addSpawnGroup(p, group, count, true);
                     
-                    if (++r % 4 == 0) p.row();
+                if (++r % 4 == 0) p.row();
                     
-                    atotal += group.getSpawned(count);
-                }
-            }).growX().height(120).padBottom(12);
-            t.row();
+                atotal += group.getSpawned(count);
+            }
+        }).growX().height(120).padBottom(12);
+        t.row();
             
-            t.add(Core.bundle.format("mutl.totalamount", atotal)).growX();
-            t.row();
+        t.add(Core.bundle.format("mutl.totalamount", atotal)).growX();
+        t.row();
             
-            t.add(Core.bundle.format("mutl.spawncount", Vars.spawner.countSpawns())).growX();
-            t.row();
+        t.add(Core.bundle.format("mutl.spawncount", Vars.spawner.countSpawns())).growX();
+        t.row();
             
-            t.table(null, t2 => {
-                t2.bottom().right();
+        t.table(null, t2 => {
+            t2.bottom().right();
                 
-                // reset picked wave to the current wave.
-                t2.button(Icon.refresh, Styles.cleari, () => {
-                    c.pickedWave = Vars.state.wave - 1;
-                    waverun.run();
-                }).size(48).padRight(4);
+            // reset picked wave to the current wave.
+            t2.button(Icon.refresh, Styles.cleari, () => {
+                c.pickedWave = Vars.state.wave - 1;
+                waverun.run();
+            }).size(48).padRight(4);
                 
-                // select previous wave.
-                t2.button(Icon.left, Styles.cleari, () => {
-                    if (c.pickedWave - 1 < 0) return;
+            // select previous wave.
+            t2.button(Icon.left, Styles.cleari, () => {
+                if (c.pickedWave - 1 < 0) return;
                     
-                    c.pickedWave--;
-                    waverun.run();
-                }).size(48).padRight(4);
+                c.pickedWave--;
+                waverun.run();
+            }).size(48).padRight(4);
                 
-                // select next wave.
-                t2.button(Icon.right, Styles.cleari, () => {
-                    c.pickedWave++;
-                    waverun.run();
-                }).size(48);
-            }).grow();
+            // select next wave.
+            t2.button(Icon.right, Styles.cleari, () => {
+                c.pickedWave++;
+                waverun.run();
+            }).size(48);
         }).grow();
     });
     
@@ -136,42 +151,40 @@ function addWaveLine(table, wave) {
 function wavePanel(table) {
     let waverun = new RunnableAction();
     
-    table.table(null, t => {
-        // wave preview
-        t.pane(p => {
-            waverun.setRunnable(() => {
-                p.clearChildren();
-                p.top().left();
+    // wave preview
+    table.pane(p => {
+        waverun.setRunnable(() => {
+            p.clearChildren();
+            p.top().left();
                 
-                let start = c.showPrevWave ? 0 : Vars.state.wave - 1,
-                    end = Vars.state.wave + c.waveRange;
+            let start = c.showPrevWave ? 0 : Vars.state.wave - 1,
+                end = Vars.state.wave + c.waveRange;
                 
-                for (let i = start; i < end; i++) {
-                    addWaveLine(p, i);
-                }
-            });
+            for (let i = start; i < end; i++) {
+                addWaveLine(p, i);
+            }
+        });
             
-            waverun.run();
-        }).size(390, 340);
-        t.row();
+        waverun.run();
+    }).size(390, 340);
+    table.row();
         
-        // wave preview options
-        t.table(null, t2 => {
-            t2.add("$option.mutl-waverange.name").width(64).padRight(6);
+    // wave preview options
+    table.table(null, t => {
+        t.add("$option.mutl-waverange.name").width(64).padRight(6);
             
-            t2.field(c.waveRange, TextField.TextFieldFilter.digitsOnly, input => {
-                if (!input || isNaN(input)) return;
+        t.field(c.waveRange, TextField.TextFieldFilter.digitsOnly, input => {
+            if (!input || isNaN(input)) return;
                 
-                c.waveRange = parseInt(input);
-                waverun.run();
-            }).width(80).padRight(12);
+            c.waveRange = parseInt(input);
+            waverun.run();
+        }).width(80).padRight(12);
             
-            t2.check("$option.mutl-showprevwave.name", c.showPrevWave, b => {
-                c.showPrevWave = b;
-                waverun.run();
-            }).width(190);
-        }).height(60).growX();
-    }).grow();
+        t.check("$option.mutl-showprevwave.name", c.showPrevWave, b => {
+            c.showPrevWave = b;
+            waverun.run();
+        }).width(190);
+    }).height(60).growX();
 }
 
 /** World info dialog. */
