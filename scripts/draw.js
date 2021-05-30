@@ -8,23 +8,28 @@ Events.run(Trigger.draw, () => {
     let ux = (cx - cw / 2) * 8 - 30, uy = (cy - ch / 2) * 8 - 30;
     let uw = cw * 8 + 30, uh = ch * 8 + 30;
     
-    /* Draws a circle with a radius of a turret's range for every turret. */
-    if (c.turretRange) {
+    /* Draws a circle with a radius of a turret's range and/or real hit radius for every turret. */
+    if (c.turretRange || c.turretHitRadius) {
         Draw.draw(Layer.overlayUI + 0.03, () => {
-            for (let tile of Vars.indexer.getEnemy(Team.derelict, BlockFlag.turret).toArray()) { 
+            for (let tile of Vars.indexer.getEnemy(Team.derelict, BlockFlag.turret).toArray()) {
                 if (!tile.build) continue;
         
                 let block = tile.block(), build = tile.build;
                 
-                if (block.range == null || block.range <= 0) continue;
+                if (block.range == null || block.range <= 0 || !(build instanceof Turret.TurretBuild)) continue;
                 
                 // whether the block's position is within the camera range.
                 if (Mathf.dst(cx, cy, tile.x, tile.y) < Mathf.dst(cw, ch)) {
                     Draw.color(build.team.color);
-                    Draw.alpha(0.36);
+                    Draw.alpha(build.isShooting() ? 0.66 : 0.36);
                     
-                    // Fill.circle(build.x, build.y, block.range);
-                    Lines.circle(build.x, build.y, block.range);
+                    if (c.turretRange) {
+                        Lines.circle(build.x, build.y, block.range);
+                    }
+                    
+                    if (c.turretHitRadius && build.hasAmmo()) {
+                        Lines.circle(build.x, build.y, build.peekAmmo().range());
+                    }
                 }
             }
         });
@@ -41,8 +46,7 @@ Events.run(Trigger.draw, () => {
                 
                 Draw.color(unit.team.color);
                 Draw.alpha(0.36);
-                    
-                // Fill.circle(build.x, build.y, block.range);
+                
                 Lines.circle(unit.x, unit.y, type.range);
             }
         });

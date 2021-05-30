@@ -15,6 +15,7 @@ function configDialog() {
     dialog.titleTable.clearChildren();
     
     main.checkPref("mutl-turretrange", false, b => c.turretRange = Core.settings.getBool("mutl-turretrange"));
+    main.checkPref("mutl-turrethitradius", false, b => c.turretHitRadius = Core.settings.getBool("mutl-turrethitradius"));
     main.checkPref("mutl-unitrange", false, b => c.unitRange = Core.settings.getBool("mutl-unitrange"));
     main.checkPref("mutl-controlledstatus", false, b => c.controlledStatus = Core.settings.getBool("mutl-controlledstatus"));
     main.checkPref("mutl-allstatus", false, b => c.allStatus = Core.settings.getBool("mutl-allstatus"));

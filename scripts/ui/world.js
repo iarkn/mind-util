@@ -1,25 +1,28 @@
 const c = global.mutl.config;
 
-// INFO SECTION
-
-function rulesList(table) {
+/** Adds a label with a line below it. */
+function title(title, table) {
     table.top().left();
             
-    table.add("$mutl.header.rules").color(Pal.accent).growX().padLeft(4).padBottom(4);
+    table.add(title).color(Pal.accent).growX().padLeft(4).padBottom(4);
     table.row();
             
     table.image().color(Pal.accent).growX().height(4).padLeft(4).padRight(4).padBottom(12);
     table.row();
 }
 
+// INFO SECTION
+
+function rulesList(table) {
+    title("$mutl.header.rules", table);
+    
+    table.add("Still in development.").padLeft(4).growX();
+}
+
 function worldInfo(table) {
-    table.top().left();
-            
-    table.add("$mutl.header.worldinfo").color(Pal.accent).growX().padLeft(4).padBottom(4);
-    table.row();
-            
-    table.image().color(Pal.accent).growX().height(4).padLeft(4).padRight(4).padBottom(12);
-    table.row();
+    title("$mutl.header.worldinfo", table);
+    
+    table.add("Still in development.").padLeft(4).growX();
 }
 
 // WAVE SECTION
@@ -64,12 +67,8 @@ function wavePicked(table) {
         t.defaults().padLeft(4);
         t.top().left();
             
-        t.add(Core.bundle.format("mutl.header.currentwave", count + 1)).color(Pal.accent).growX().padBottom(4);
-        t.row();
-            
-        t.image().color(Pal.accent).growX().height(4).padRight(4).padBottom(12);
-        t.row();
-            
+        title(Core.bundle.format("mutl.header.currentwave", count + 1), t);
+        
         t.add("$mutl.spawns").growX();
         t.row();
             

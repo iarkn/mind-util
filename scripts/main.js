@@ -23,9 +23,9 @@ const contents = [
 
 /** Handles requiring files with custom or multiple directories.
  *  @param {Array}          array   - The array containing the file tree in the scripts directory.
- *  @param {Array.<String>} path    - Path to a file. Each element contains only one directory name.
+ *  @param {Array<String>}  path    - Path to a file. Each element contains only one directory name.
  *
- *  @returns {Array.<String>} List of files that are going to be loaded.
+ *  @returns {Array<String>} List of files that are going to be loaded.
  */
 function handle(array, path) {
     // path to file (separated by element), e.g. ["blocks", "defense", "turrets"].
