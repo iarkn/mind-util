@@ -18,16 +18,19 @@ Events.run(Trigger.draw, () => {
                 
                 if (block.range == null || block.range <= 0 || !(build instanceof Turret.TurretBuild)) continue;
                 
+                let valid = block instanceof PowerTurret ? build.power.status > 0 : build.hasAmmo(),
+                    active = block instanceof PowerTurret ? (build.isActive() && build.power.status > 0) : build.isActive();
+
                 // whether the block's position is within the camera range.
                 if (Mathf.dst(cx, cy, tile.x, tile.y) < Mathf.dst(cw, ch)) {
                     Draw.color(build.team.color);
-                    Draw.alpha(build.isShooting() ? 0.66 : 0.36);
+                    Draw.alpha(active ? 0.66 : 0.36);
                     
                     if (c.turretRange) {
                         Lines.circle(build.x, build.y, block.range);
                     }
                     
-                    if (c.turretHitRadius && build.hasAmmo()) {
+                    if (c.turretHitRadius && valid) {
                         Lines.circle(build.x, build.y, build.peekAmmo().range());
                     }
                 }
@@ -77,8 +80,4 @@ Events.run(Trigger.draw, () => {
             }
         });
     }
-    
-    // if () {
-    //     
-    // }
 });
