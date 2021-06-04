@@ -1,4 +1,4 @@
-# Mindustry Utilities
+# mind-util
 
 [![gitter-room](https://img.shields.io/gitter/room/Receptea/mind-util?style=flat-square&color=ed1965&logo=gitter)](https://gitter.im/Receptea/mind-util?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 [![downloads](https://img.shields.io/github/downloads/Receptea/mind-util/total?style=flat-square)](https://github.com/Receptea/mind-util/releases/latest)

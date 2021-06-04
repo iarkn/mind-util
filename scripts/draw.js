@@ -12,7 +12,7 @@ Events.run(Trigger.draw, () => {
     if (c.turretRange || c.turretHitRadius) {
         Draw.draw(Layer.overlayUI + 0.03, () => {
             for (let tile of Vars.indexer.getEnemy(Team.derelict, BlockFlag.turret).toArray()) {
-                if (!tile.build) continue;
+                if (!tile.block() || !tile.build) continue;
         
                 let block = tile.block(), build = tile.build;
                 
@@ -57,9 +57,10 @@ Events.run(Trigger.draw, () => {
     
     /* Display the status of the controlled entity, */
     if (c.controlledStatus) {
-        if (!Vars.player.unit() || Vars.player.unit() == Nulls.unit) return;
-        
         let unit = Vars.player.unit();
+        
+        if (!unit || unit == Nulls.unit) return;
+        
         let px = Vars.player.x, py = Vars.player.y;
         
         Draw.draw(Layer.overlayUI + 0.08, () => {

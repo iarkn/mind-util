@@ -1,5 +1,6 @@
 module.exports = {
     consoleShown: false,
+    // history: new Seq(),
     // unit spawner
     selectedUnit: UnitTypes.dagger,
     selectedTeam: Team.sharded,

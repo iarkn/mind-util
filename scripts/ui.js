@@ -39,7 +39,7 @@ function mainDialog() {
     const dialog = new BaseDialog("$mutl.title.utilities");
     
     dialog.cont.table(Tex.button, t => {
-        t.center(); 
+        t.center();
         t.defaults().size(300, 60);
         
         t.button("$mutl.option.config", Styles.cleart, () => {
@@ -55,7 +55,7 @@ function mainDialog() {
         }).row();
         
         t.button("$mutl.option.modding", Styles.cleart, () => {
-            Vars.ui.showInfoText("Unavailable", "This section is still under development.");
+            Vars.ui.showInfoText("Notice", "This section will be available in version 7.0 of Mindustry.");
         });
     });
     
@@ -64,18 +64,58 @@ function mainDialog() {
     return dialog;
 }
 
+// CONSOLE - TODO: history for mobile without reflections, or just make a custom fragment instead.
+
+/* Adds a table containing one script history.
+function addHistoryTable(table, index) {
+    // ..,
+} */
+
+/* Script history dialog for mobile.
+function historyDialog() {
+    const dialog = new BaseDialog("$mutl.header.history");
+    
+    let w = Core.graphics.isPortrait() ? 420 : 680,
+        h = Core.graphics.isPortrait() ? 680 : 420;
+    
+    dialog.cont.table(Tex.button, t => {
+        t.top().left();
+        
+        t.add("$mutl.header.history").color(Pal.accent).growX().padLeft(4).padBottom(4);
+        t.row();
+        
+        t.image().color(Pal.accent).growX().height(4).padLeft(4).padRight(4).padBottom(12);
+        t.row();
+        
+        t.pane(p => {
+            p.top().left();
+        }).growX();
+    }).size(w, h);
+    
+    dialog.addCloseButton();
+    
+    return dialog;
+} */
+
 /** Setup script console fragment for mobile. */
 function setupConsole(shown) {
     let frag = Vars.ui.scriptfrag;
     
     frag.clearChildren();
     
-    frag.button(Icon.pencil, Styles.clearTransi, () => {
-        frag.toggle();
-    }).size(48);
+    frag.table(null, t => {
+        t.defaults().size(48);
+        
+        t.button(Icon.pencil, Styles.clearTransi, () => frag.toggle());
+        // t.button(Icon.list, Styles.clearTransi, () => historyDialog().show());
+        // shortcut for the 'clear' command.
+        t.button(Icon.trash, Styles.clearTransi, () => frag.clearMessages());
+    });
     
     frag.visibility = () => shown;
 }
+
+// SETUP
 
 /* Add buttons in game on mobile. */
 if (Vars.mobile) {

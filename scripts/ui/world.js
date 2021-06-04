@@ -3,10 +3,10 @@ const c = global.mutl.config;
 /** Adds a label with a line below it. */
 function title(title, table) {
     table.top().left();
-            
+
     table.add(title).color(Pal.accent).growX().padLeft(4).padBottom(4);
     table.row();
-            
+
     table.image().color(Pal.accent).growX().height(4).padLeft(4).padRight(4).padBottom(12);
     table.row();
 }
@@ -15,13 +15,13 @@ function title(title, table) {
 
 function rulesList(table) {
     title("$mutl.header.rules", table);
-    
+
     table.add("Still in development.").padLeft(4).growX();
 }
 
 function worldInfo(table) {
     title("$mutl.header.worldinfo", table);
-    
+
     table.add("Still in development.").padLeft(4).growX();
 }
 
@@ -38,7 +38,7 @@ function addSpawnGroup(table, group, wave, showShield) {
             t.label(() => group.getSpawned(wave).toString()).color(color);
         })
     ).size(42).pad(4);
-    
+
     if (showShield) {
         table.stack(
             new Image(Icon.defense),
@@ -54,7 +54,7 @@ function addSpawnGroup(table, group, wave, showShield) {
 function wavePicked(table) {
     let t = table;
     let waverun = new RunnableAction();
-    
+
     waverun.setRunnable(() => {
         t.clearChildren();
 
@@ -63,56 +63,56 @@ function wavePicked(table) {
 
         let count = c.pickedWave;
         let atotal = 0, htotal = 0;
-        
+
         t.defaults().padLeft(4);
         t.top().left();
-            
+
         title(Core.bundle.format("mutl.header.currentwave", count + 1), t);
-        
+
         t.add("$mutl.spawns").growX();
         t.row();
-            
+
         let r = 0;
-            
+
         // spawn group preview
         t.pane(p => {
             p.left();
-                
+
             for (let group of Vars.state.rules.spawns.toArray()) {
                 if (group.getSpawned(count) <= 0) continue;
-                    
+
                 addSpawnGroup(p, group, count, true);
-                    
+
                 if (++r % 4 == 0) p.row();
-                    
+
                 atotal += group.getSpawned(count);
             }
         }).growX().height(120).padBottom(12);
         t.row();
-            
+
         t.add(Core.bundle.format("mutl.totalamount", atotal)).growX();
         t.row();
-            
+
         t.add(Core.bundle.format("mutl.spawncount", Vars.spawner.countSpawns())).growX();
         t.row();
-            
+
         t.table(null, t2 => {
             t2.bottom().right();
-                
+
             // reset picked wave to the current wave.
             t2.button(Icon.refresh, Styles.cleari, () => {
                 c.pickedWave = Vars.state.wave - 1;
                 waverun.run();
             }).size(48).padRight(4);
-                
+
             // select previous wave.
             t2.button(Icon.left, Styles.cleari, () => {
                 if (c.pickedWave - 1 < 0) return;
-                    
+
                 c.pickedWave--;
                 waverun.run();
             }).size(48).padRight(4);
-                
+
             // select next wave.
             t2.button(Icon.right, Styles.cleari, () => {
                 c.pickedWave++;
@@ -120,7 +120,7 @@ function wavePicked(table) {
             }).size(48);
         }).grow();
     });
-    
+
     waverun.run();
 }
 
@@ -155,30 +155,30 @@ function wavePanel(table) {
         waverun.setRunnable(() => {
             p.clearChildren();
             p.top().left();
-                
+
             let start = c.showPrevWave ? 0 : Vars.state.wave - 1,
                 end = Vars.state.wave + c.waveRange;
-                
+
             for (let i = start; i < end; i++) {
                 addWaveLine(p, i);
             }
         });
-            
+
         waverun.run();
     }).size(390, 340);
     table.row();
-        
+
     // wave preview options
     table.table(null, t => {
         t.add("$option.mutl-waverange.name").width(64).padRight(6);
-            
+
         t.field(c.waveRange, TextField.TextFieldFilter.digitsOnly, input => {
             if (!input || isNaN(input)) return;
-                
+
             c.waveRange = parseInt(input);
             waverun.run();
         }).width(80).padRight(12);
-            
+
         t.check("$option.mutl-showprevwave.name", c.showPrevWave, b => {
             c.showPrevWave = b;
             waverun.run();
@@ -190,7 +190,7 @@ function wavePanel(table) {
 function worldDialog() {
     const dialog = new BaseDialog("$mutl.option.world");
     const cont = dialog.cont;
-    
+
     let mainrun = new RunnableAction();
 
     if (!Vars.state.waves) c.worldDialogMode = "info";
