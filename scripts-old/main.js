@@ -5,10 +5,19 @@ if (Vars.headless) {
 
 global.mutl = {};
 
+Vars.enableConsole = true;
+
 const contents = [
-    { dir: "util/", contains: ["config", "tex"] },
-    { dir: "ui/",   contains: ["configpanel", "unitspawner", "console", "menu"] },
-    { dir: "core/", contains: ["setup"] }
+    {
+        name: "util/",
+        contains: ["tex", "config"]
+    },
+    {
+        name: "ui/",
+        contains: ["unitspawner", "world", "modding"]
+    },
+    
+    "ui", "draw"
 ];
 
 /** Handles requiring files with custom or multiple directories.
@@ -23,8 +32,8 @@ function handle(array, path) {
     let result = [];
     
     for (let a of array) {
-        if (typeof a === "object") { // if 'a' is a directory.
-            pathf.push(a.dir);
+        if (typeof a === "object") { // if 'a' is an object.
+            pathf.push(a.name);
             let c = handle(a.contains, pathf);
             
             // merge the result.
@@ -39,7 +48,8 @@ function handle(array, path) {
 }
 
 for (let file of handle(contents)) {
-    global.mutl[file.split("/").pop()] = require(file);
+    let name = file.split("/").pop();
+    
+    require(file);
+    global.mutl[name] = require(file);
 }
-
-global.mutl.setup();
