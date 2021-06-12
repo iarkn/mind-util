@@ -8,12 +8,12 @@ function setup() {
         
             if (table == null) return;
             
-            table.button(Icon.list, Styles.clearTransi, () => {
-                mutl.menu.show();
+            table.button(Icon.wrench, Styles.clearTransi, () => {
+                // mutl.menu.show();
             }).name("mutl-utilities");
             
             table.button(Icon.terminal, Styles.clearTransi, () => {
-                mutl.console.show();
+                // mutl.console.show();
             }).name("mutl-console");
             
             table.image().color(Pal.gray).width(4).fill();
