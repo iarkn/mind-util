@@ -1,4 +1,21 @@
-const c = global.mutl.config;
+/*
+ *  Copyright (C) 2021 iarkn
+ *
+ *  mind-util is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  mind-util is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+const mutl = global.mutl, c = mutl.config;
 
 function showRebindDialog() {
     const dialog = new BaseDialog();
@@ -23,7 +40,7 @@ function MenuDialog() {
         t.defaults().size(300, 60);
     
         t.button("$mutl.option.config", st, () => {}).row();
-        t.button("$mutl.option.unitspawn", st, () => {}).row();
+        t.button("$mutl.option.unitspawn", st, () => mutl.unitspawner().show()).row();
         t.button("$mutl.option.world", st, () => {}).row();
         t.button("$mutl.option.modding", st, () => {});
     }
@@ -34,7 +51,7 @@ function MenuDialog() {
         t.top().left();
         
         // keybind to show utilities menu, disabled on mobile.
-        t.button(Core.bundle.format("config.mutl-menukey.name", c.menuKey.value), st, () => {
+        t.button(Core.bundle.format(c.menuKey.name, KeyCode.byOrdinal(c.menuKey.val()).value), st, () => {
             showRebindDialog();
         }).disabled(b => Vars.mobile);
     }
