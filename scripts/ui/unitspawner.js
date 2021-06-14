@@ -21,7 +21,7 @@ const c = global.mutl.config;
 function UnitSpawnerDialog() {
     const dialog = new BaseDialog("$mutl.title.unitconfig");
     
-    const main = new RunnableAction(), pos = new RunnableAction();
+    const title = new RunnableAction(), pos = new RunnableAction();
     
     /** Button for a unit in the unit selection. */
     function UnitSelect(unit) {
@@ -30,7 +30,7 @@ function UnitSpawnerDialog() {
         b.image(new TextureRegionDrawable(unit.uiIcon)).size(42).scaling(Scaling.fit);
         b.clicked(() => {
             c.selUnit = unit;
-            main.run();
+            title.run();
         });
 
         return b;
@@ -43,7 +43,7 @@ function UnitSpawnerDialog() {
         b.image().color(team.color).grow();
         b.clicked(() => {
             c.selTeam = team;
-            main.run();
+            title.run();
         });
         
         return b;
@@ -70,7 +70,7 @@ function UnitSpawnerDialog() {
     
     dialog.addCloseButton();
     
-    // table for unit selectipn.
+    // table for unit selection.
     dialog.cont.table(Tex.button, t => {
         t.top().left();
         
@@ -99,62 +99,68 @@ function UnitSpawnerDialog() {
     dialog.cont.table(null, t => {
         // configuration panel.
         t.table(Tex.button, t2 => {
-            main.setRunnable(() => {
-                let unit = c.selUnit, team = c.selTeam;
-                
-                t2.clearChildren();
-                t2.top();
-                
-                t2.table(null, t3 => {
-                    t3.image(new TextureRegionDrawable(unit.uiIcon)).size(42).scaling(Scaling.fit);
-                    t3.add(unit.localizedName).color(team.color).padLeft(6);
-                }).growX().padBottom(4);
-                
-                t2.row();
-                
-                t2.image().color(team.color).height(4).growX().pad(4).padBottom(12);
-                t2.row();
-                
-                // team selection.
-                t2.pane(p => {
-                    let r = 0;
+            t2.top();
+
+            // information title of selected unit amd team.
+            t2.table(null, t3 => {
+                title.setRunnable(() => {
+                    let unit = c.selUnit, team = c.selTeam;
                     
-                    for (let team of Team.all) {
-                        p.add(new TeamSelect(team)).size(48).pad(4);
-                        
-                        if (++r % 6 == 0) p.row();
-                    }
-                }).height(160).growX().padBottom(12);
-                
-                t2.row();
-                
-                // position selection.
-                t2.table(null, t3 => {
+                    t3.clearChildren();
+                    t3.top();
+                    
                     t3.table(null, ta => {
-                        pos.setRunnable(() => {
-                            ta.clearChildren();
-                            
-                            ta.add("X:").padRight(6);
-                            ta.add(new PosSelect("x", Vars.world.width())).size(120, 40).pad(3);
-                            
-                            ta.add("Y:").padRight(6);
-                            ta.add(new PosSelect("y", Vars.world.height())).size(120, 40).pad(3);
-                        });
+                        ta.image(new TextureRegionDrawable(unit.uiIcon)).size(42).scaling(Scaling.fit);
+                        ta.add(unit.localizedName).color(team.color).padLeft(6);
+                    }).growX().padBottom(4);
+                    
+                    t3.row();
+                    
+                    t3.image().color(team.color).height(4).growX().pad(4).padBottom(12);
+                });
+                
+                title.run();
+            }).growX();
+    
+            t2.row();
+            
+            // team selection.
+            t2.pane(p => {
+                let r = 0;
+                
+                for (let team of Team.all) {
+                    p.add(new TeamSelect(team)).size(48).pad(4);
+                    
+                    if (++r % 6 == 0) p.row();
+                }
+            }).height(160).growX().padBottom(12);
+            
+            t2.row();
+            
+            // position selection.
+            t2.table(null, t3 => {
+                t3.table(null, ta => {
+                    pos.setRunnable(() => {
+                        ta.clearChildren();
                         
-                        pos.run();
+                        ta.add("X:").padRight(6);
+                        ta.add(new PosSelect("x", Vars.world.width())).size(120, 40).pad(3);
+                        
+                        ta.add("Y:").padRight(6);
+                        ta.add(new PosSelect("y", Vars.world.height())).size(120, 40).pad(3);
                     });
                     
-                    // set position to the player's position.
-                    t3.button(Icon.down, Styles.clearTransi, () => {
-                        c.selPos.x = Math.round(Vars.player.x / 8);
-                        c.selPos.y = Math.round(Vars.player.y / 8);
-                        
-                        pos.run();
-                    }).size(48);
-                }).growX();
-            });
-            
-            main.run();
+                    pos.run();
+                });
+                
+                // set position to the player's position.
+                t3.button(Icon.down, Styles.clearTransi, () => {
+                    c.selPos.x = Math.round(Vars.player.x / 8);
+                    c.selPos.y = Math.round(Vars.player.y / 8);
+                    
+                    pos.run();
+                }).size(48);
+            }).growX();
         }).size(420, 354).padBottom(6);
         
         t.row();
