@@ -6,8 +6,10 @@ const unitDialog = global.mutl.unitspawner,
 
 /** Settings dialog for configuration. */
 function configDialog() {
-    const dialog = new SettingsDialog();
-    const main = dialog.main;
+    const dialog =  new Dialog("");
+    const main = Version.isAtLeast("126.4")
+        ? new SettingsMenuDialog.SettingsTable()
+        : new SettingsDialog.SettingsTable();
     
     dialog.setFillParent(true);
     dialog.closeOnBack();
@@ -23,6 +25,7 @@ function configDialog() {
     // remove the "Reset to Defaults" button.
     main.getChildren().pop();
     
+    dialog.cont.add(main);
     dialog.bottom();
     
     dialog.buttons.button("$back", Icon.left, () => {
