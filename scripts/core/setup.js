@@ -15,7 +15,7 @@
  *  along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-const mutl = global.mutl;
+const mutl = global.mutl, c = mutl.config;
 
 function setup() {
     /* Add buttons on world load event on mobile... */
