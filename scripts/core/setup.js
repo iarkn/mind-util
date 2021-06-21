@@ -21,19 +21,26 @@ function setup() {
     /* Add buttons on world load event on mobile... */
     if (Vars.mobile) {
         Events.on(WorldLoadEvent, e => {
-            const table = Vars.ui.hudGroup.getChildren().get(3).find("mobile buttons");
-        
-            if (table == null) return;
-            
-            table.button(Icon.wrench, Styles.clearTransi, () => {
+            const tl = Vars.ui.hudGroup.getChildren().get(3);
+            const mobile = tl.find("mobile buttons"), stat = tl.cells;
+
+            if (!tl || !mobile || !stat) return;
+
+            print("\n" + tl);
+            print("\n" + stat.get(2));
+
+            mobile.button(Icon.layers, Styles.clearTransi, () => {
                 mutl.menu().show();
             }).name("mutl-utilities");
-            
-            table.button(Icon.terminal, Styles.clearTransi, () => {
+
+            mobile.button(Icon.terminal, Styles.clearTransi, () => {
                 // mutl.console().show();
             }).name("mutl-console");
-            
-            table.image().color(Pal.gray).width(4).fill();
+
+            mobile.image().color(Pal.gray).width(4).fill();
+
+            // align 'waves/editor' table to the left.
+            stat.get(2).left();
         });
     } else {
         /* ...or a listener for the Utilities Menu keybind on desktop. */
