@@ -8,7 +8,7 @@ function showRebindDialog() {
     });
 }
 
-/** Creates the utilities menu dialog, */
+/** Creates the utilities menu dialog. */
 function MenuDialog() {
     const dialog = new BaseDialog("$mutl.title.utilities");
     
