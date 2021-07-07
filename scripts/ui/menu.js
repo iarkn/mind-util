@@ -1,20 +1,3 @@
-/*
- *  Copyright (C) 2021 iarkn
- *
- *  mind-util is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  mind-util is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program. If not, see <https://www.gnu.org/licenses/>.
- */
-
 const mutl = global.mutl, c = mutl.config;
 
 function showRebindDialog() {
@@ -32,17 +15,17 @@ function MenuDialog() {
     const st = Styles.cleart;
     const main = new RunnableAction();
     
-    // 1 for categories, 0 for mod settings.
+    // 1 for categories, 0 for mod settings
     let mode = 1;
 
     /** Shows a list of categories in the utilities menu. */
     function showCategories(t) {
         t.defaults().size(300, 60);
     
-        t.button("$mutl.option.config", st, () => {}).row();
+        t.button("$mutl.option.config", st, () => {}).disabled(b => true).row();
         t.button("$mutl.option.unitspawn", st, () => mutl.unitspawner().show()).row();
-        t.button("$mutl.option.world", st, () => {}).row();
-        t.button("$mutl.option.modding", st, () => {});
+        t.button("$mutl.option.world", st, () => {}).disabled(b => true).row();
+        t.button("$mutl.option.modding", st, () => {}).disabled(b => true);
     }
 
     /** Shows the configuration for mind-util's settings. */
@@ -50,8 +33,8 @@ function MenuDialog() {
         t.defaults().size(300, 60);
         t.top().left();
         
-        // keybind to show utilities menu, disabled on mobile.
-        t.button(Core.bundle.format(c.menuKey.name, KeyCode.byOrdinal(c.menuKey.val()).value), st, () => {
+        // keybind to show utilities menu, disabled on mobile
+        t.button(Core.bundle.format(c.menuKey.iname, KeyCode.byOrdinal(c.menuKey.get()).value), st, () => {
             showRebindDialog();
         }).disabled(b => Vars.mobile);
     }
@@ -63,7 +46,7 @@ function MenuDialog() {
             t.clearChildren();
             
             t.table(Tex.button, t2 => {
-                // buttons to switch between the two modes.
+                // buttons to switch between the two modes
                 t2.table(null, t3 => {
                     t3.left();
                     
@@ -83,7 +66,7 @@ function MenuDialog() {
             
             t.row();
             
-            // table of the selected mode.
+            // table of the selected mode
             t.table(Tex.button, t2 => {
                 mode ? showCategories(t2) : modSettings(t2);
             }).width(324);

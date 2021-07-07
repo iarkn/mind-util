@@ -1,26 +1,8 @@
-/*
- *  Copyright (C) 2021 iarkn
- *
- *  mind-util is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  mind-util is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program. If not, see <https://www.gnu.org/licenses/>.
- */
-
-const c = global.mutl.config;
+const mutl = global.mutl, c = mutl.config;
 
 /** Creates the unit spawner dialog. */
 function UnitSpawnerDialog() {
     const dialog = new BaseDialog("$mutl.title.unitconfig");
-    
     const title = new RunnableAction(), pos = new RunnableAction();
     
     /** Button for a unit in the unit selection. */
@@ -65,12 +47,17 @@ function UnitSpawnerDialog() {
     
     /** Spawns the unit with the current configuration. */
     function spawnUnit(unit, team, pos) {
-        unit.spawn(team, pos.x * 8, pos.y * 8);
+        for (let i = 0; i < c.spawnAmount.get(); i++) {
+            let x = pos.x + (c.scatter.get() ? Mathf.range(c.scatterRadius.get()) : 0);
+            let y = pos.y + (c.scatter.get() ? Mathf.range(c.scatterRadius.get()) : 0);
+
+            unit.spawn(team, x * 8, y * 8);
+        }
     }
     
     dialog.addCloseButton();
     
-    // table for unit selection.
+    // table for unit selection
     dialog.cont.table(Tex.button, t => {
         t.top().left();
         
@@ -95,13 +82,13 @@ function UnitSpawnerDialog() {
     
     if (Core.graphics.isPortrait()) dialog.cont.row();
     
-    // table for the main section.
+    // table for the main section
     dialog.cont.table(null, t => {
-        // configuration panel.
+        // configuration panel
         t.table(Tex.button, t2 => {
             t2.top();
 
-            // information title of selected unit amd team.
+            // information title of selected unit and team
             t2.table(null, t3 => {
                 title.setRunnable(() => {
                     let unit = c.selUnit, team = c.selTeam;
@@ -124,7 +111,7 @@ function UnitSpawnerDialog() {
     
             t2.row();
             
-            // team selection.
+            // team selection
             t2.pane(p => {
                 let r = 0;
                 
@@ -137,7 +124,7 @@ function UnitSpawnerDialog() {
             
             t2.row();
             
-            // position selection.
+            // position selection
             t2.table(null, t3 => {
                 t3.table(null, ta => {
                     pos.setRunnable(() => {
@@ -153,7 +140,7 @@ function UnitSpawnerDialog() {
                     pos.run();
                 });
                 
-                // set position to the player's position.
+                // set position to the player's position
                 t3.button(Icon.down, Styles.clearTransi, () => {
                     c.selPos.x = Math.round(Vars.player.x / 8);
                     c.selPos.y = Math.round(Vars.player.y / 8);
@@ -171,7 +158,7 @@ function UnitSpawnerDialog() {
             }).size(288, 60).padRight(6);
             
             t2.button(Icon.pencil, () => {
-                // TODO
+                mutl.spawnopt().show();
             }).size(60).padRight(6);
             
             t2.button(Icon.info, () => {

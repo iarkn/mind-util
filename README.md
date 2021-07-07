@@ -7,4 +7,4 @@ A client-side Mindustry mod that contains useful (probably) tools or utilities. 
 
 ## License
 
-All source files are distributed under the [GNU General Public License v3.0](LICENSE) unless mentioned otherwise.
+MIT

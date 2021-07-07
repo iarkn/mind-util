@@ -1,20 +1,3 @@
-/*
- *  Copyright (C) 2021 iarkn
- *
- *  mind-util is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  mind-util is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program. If not, see <https://www.gnu.org/licenses/>.
- */
-
 if (Vars.headless) {
     Log.err("'receptea/mind-util' is a client-side mod; it does not work on headless servers.");
     Core.app.exit();
@@ -24,7 +7,7 @@ global.mutl = {};
 
 const contents = [
     { dir: "util/", contains: ["config", "tex"] },
-    { dir: "ui/",   contains: ["configpanel", "unitspawner", "console", "menu"] },
+    { dir: "ui/",   contains: ["configpanel", "spawnopt", "unitspawner", "console", "menu"] },
     { dir: "core/", contains: ["setup"] }
 ];
 
