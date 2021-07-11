@@ -26,6 +26,7 @@ module.exports = {
     spawnAmount: new Config("spawnamount", 1),
 
     /* No-need-to-save configurations */
+    consoleShown: false,
     selUnit: UnitTypes.dagger,
     selTeam: Team.sharded,
     selPos: new Point2(0, 0)

@@ -14,7 +14,9 @@ function setup() {
             }).name("mutl-utilities");
 
             mobile.button(Icon.terminal, Styles.clearTransi, () => {
-                // mutl.console().show();
+                // TODO mutl.console().show();
+                mutl.console(c.consoleShown = !c.consoleShown);
+                // c.consoleShown = !c.consoleShown;
             }).name("mutl-console");
 
             mobile.image().color(Pal.gray).width(4).fill();

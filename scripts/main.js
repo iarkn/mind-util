@@ -7,7 +7,7 @@ global.mutl = {};
 
 const contents = [
     { dir: "util/", contains: ["config", "tex"] },
-    { dir: "ui/",   contains: ["configpanel", "spawnopt", "unitspawner", "console", "menu"] },
+    { dir: "ui/",   contains: ["configpanel", "spawnopt", "unitspawner", "snippets", "console", "menu"] },
     { dir: "core/", contains: ["setup"] }
 ];
 
@@ -18,19 +18,19 @@ const contents = [
  *  @returns {Array<String>} List of files that are going to be loaded.
  */
 function handle(array, path) {
-    // path to file (separated by element), e.g. ["blocks", "defense", "turrets"].
+    // path to file (separated by element), e.g. ["blocks", "defense", "turrets"]
     let pathf = path == null ? [] : path;
     let result = [];
     
     for (let a of array) {
-        if (typeof a === "object") { // if 'a' is a directory.
+        if (typeof a === "object") { // if 'a' is a directory
             pathf.push(a.dir);
             let c = handle(a.contains, pathf);
             
-            // merge the result.
+            // merge the result
             result = result.concat(c);
             pathf.pop();
-        } else { // if 'a' is an array of contents.
+        } else { // if 'a' is an array of contents
             result.push("mutl/" + pathf.join("/") + a);
         }
     }
