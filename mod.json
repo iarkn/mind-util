@@ -1,0 +1,10 @@
+{
+    "name": "mind-util",
+    "displayName": "mind-util - Utility Mod",
+    "author": "iarkn",
+    "description": "A client-side utility mod. Contains useful (probably) features such as\n  - console\n  - unit spawner\n  - entity display\n  - and more...\n\nPress F9 to access the utilities menu on desktop. On mobile, tap the button with a stack icon once you have loaded a world.\n\nFor more information, please visit <https://github.com/iarkn/mind-util/wiki>.",
+    "version": "1.3.0",
+    "minGameVersion": "129.1",
+    "main": "iarkn.mutl.MutlMod",
+    "java": true
+}
