@@ -8,6 +8,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set Android SDK build tools
+        run: echo "${ANDROID_HOME}/build-tools/30.0.3" >> $GITHUB_PATH
+
       - name: Set up JDK 16
         uses: actions/setup-java@v2
         with:
