@@ -5,29 +5,14 @@ apply plugin: 'java'
 group 'com.github.iarkn'
 version '1.0'
 
-sourceCompatibility = 16
-targetCompatibility = 8
+ext {
+    def json = new JsonSlurper()
+    def mod = json.parse(new File('mod.json'))
 
-buildscript {
-    ext {
-        def json = new JsonSlurper()
-        def mod = json.parse(new File('mod.json'))
-
-        artifactName = "${mod.name}-${mod.version}"
-        sdkRoot = System.getenv('ANDROID_HOME')
-        // For the special operating system
-        requiresSpecialTreatment = System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')
-    }
-
-    repositories {
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-    }
-
-    dependencies {
-        classpath "com.github.Anuken.Mindustry:core:$gameVersion"
-        classpath "com.github.Anuken.Arc:arc-core:$gameVersion"
-    }
+    artifactName = "${mod.name}-${mod.version}"
+    sdkRoot = System.getenv('ANDROID_SDK_ROOT') ?: System.getenv('ANDROID_HOME')
+    // For the special operating system
+    requiresSpecialTreatment = System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')
 }
 
 repositories {
@@ -36,9 +21,9 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor 'com.github.Anuken:jabel:34e4c172e65b3928cd9eabe1993654ea79c409cd'
+    annotationProcessor 'com.github.Anuken:jabel:368c91431d9388d0fec7e1a449a0ce3da03b56e8'
     compileOnly "com.github.Anuken.Mindustry:core:$gameVersion"
-    compileOnly "com.github.Anuken.Arc:arc-core:$gameVersion"    
+    compileOnly "com.github.Anuken.Arc:arc-core:$gameVersion"
 }
 
 jar {
@@ -46,7 +31,7 @@ jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree() }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 
     from(rootDir) {
@@ -68,7 +53,7 @@ task dex {
             )
             // d8 [classpath ...] --min-api 14 --output [dex.jar] [desktop.jar]
             def args = [
-                'd8', *files.collect { ['--classpath', it.path] }.flatten(), 
+                'd8', *files.collect { ['--classpath', it.path] }.flatten(),
                 '--min-api', '14', '--output', "$artifactName-dex.jar", "$artifactName-desktop.jar"
             ]
 
@@ -106,12 +91,6 @@ tasks.withType(JavaCompile) {
 
     options.encoding = 'UTF-8'
     options.fork = true
-    // If you are not using JDK 16, this will not work
+    // If you are not using JDK >= 9, this will not work. But you should be using JDK 16 anyway
     options.compilerArgs += ['-Xlint:all', '--release', '8']
-    // Fix Jabel not being able to access 'com.sun.tools.javac.code/parser' because it's not exported. Similar issue:
-    // https://stackoverflow.com/questions/65380359/lomboks-access-to-jdk-compilers-internal-packages-incompatible-with-java-16
-    options.forkOptions.jvmArgs += [
-        '--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED',
-        '--add-opens=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED'
-    ]
 }
