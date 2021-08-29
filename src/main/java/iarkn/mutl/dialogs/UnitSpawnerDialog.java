@@ -59,7 +59,7 @@ public class UnitSpawnerDialog extends BaseDialog {
 
                     if (++r % 6 == 0) p.row();
                 }
-            });
+            }).growX();
         }).size(420f);
 
         if (Core.graphics.isPortrait()) cont.row();
@@ -102,7 +102,7 @@ public class UnitSpawnerDialog extends BaseDialog {
 
                         if (++r % 6 == 0) p.row();
                     }
-                }).growX().height(160f);
+                }).growX().padBottom(6f);
 
                 t2.row();
 
@@ -147,7 +147,7 @@ public class UnitSpawnerDialog extends BaseDialog {
         }).size(420f);
     }
 
-    /** Spawns the unit with the current configuration. */
+    /** Spawns the selected unit with the current configuration. */
     public void spawnUnit() {
         for (int i = 0; i < Core.settings.getInt("mutl-spawnamount"); i++) {
             float radius = Core.settings.getBool("mutl-scatter") ? Core.settings.getInt("mutl-scatterradius") : 0f;

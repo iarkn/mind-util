@@ -34,8 +34,8 @@ public class UtilitiesDialog extends BaseDialog {
             tools.defaults().size(300f, 60f);
 
             // options.button("@mutl.option.config", Styles.cleart, Index.display::show);
-            tools.button("@mutl.tool.unitspawn", Styles.cleart, Index.spawner::show).disabled(!Vars.state.isGame()).row();
             tools.button("@mutl.tool.world", Styles.cleart, Index.world::show).disabled(!Vars.state.isGame()).row();
+            tools.button("@mutl.tool.unitspawner", Styles.cleart, Index.spawner::show).disabled(!Vars.state.isGame()).row();
             // options.button("@mutl.option.modding", Styles.cleart, Index.modding::show);
         } else {
             config.defaults().size(300f, 60f);
