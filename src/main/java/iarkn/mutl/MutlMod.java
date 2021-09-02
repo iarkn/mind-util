@@ -23,7 +23,8 @@ public class MutlMod extends Mod {
             Index.init();
 
             if (Vars.mobile) {
-                Table mobile = Vars.ui.hudGroup.find("mobile buttons");
+                WidgetGroup hud = Vars.ui.hudGroup;
+                Table mobile = hud.find("mobile buttons");
 
                 mobile.button(Icon.layers, Styles.clearTransi, () -> {
                     Index.util.show();
@@ -35,7 +36,7 @@ public class MutlMod extends Mod {
 
                 mobile.image().color(Pal.gray).width(4f).fill();
                 // Align 'waves/editor' cell to the left
-                ((Table) Vars.ui.hudGroup.find("overlaymarker")).getCells().get(2).left();
+                ((Table) hud.find("overlaymarker")).getCell(hud.find("waves/editor")).left();
             }
         });
 

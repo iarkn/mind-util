@@ -51,7 +51,7 @@ task dex {
                 configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList() +
                 [new File("$sdkRoot/platforms/android-$apiLevel/android.jar")]
             )
-            // d8 [classpath ...] --min-api 14 --output [dex.jar] [desktop.jar]
+            // d8 <classpath ...> --min-api 14 --output <dex.jar> <desktop.jar>
             def args = [
                 'd8', *files.collect { ['--classpath', it.path] }.flatten(),
                 '--min-api', '14', '--output', "$artifactName-dex.jar", "$artifactName-desktop.jar"

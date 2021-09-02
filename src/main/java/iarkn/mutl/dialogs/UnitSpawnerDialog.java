@@ -2,7 +2,6 @@ package iarkn.mutl.dialogs;
 
 import arc.*;
 import arc.math.*;
-import arc.math.geom.*;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
@@ -23,19 +22,25 @@ public class UnitSpawnerDialog extends BaseDialog {
     public Team team = Team.sharded;
     public float x = 0f, y = 0f;
 
-    private UnitSpawnerOptions options;
+    private SettingsTable options;
     private Runnable info, position;
 
     public UnitSpawnerDialog() {
         super("@mutl.title.unitconfig");
 
-        options = new UnitSpawnerOptions();
+        options = new SettingsTable();
 
-        setup();
+        options.sliderPref("mutl-spawnamount", 1, 1, 100, e -> e + " " + Core.bundle.get("mutl.units"));
+        options.sliderPref("mutl-scatterradius", 40, 0, 450, e -> e + " " + Core.bundle.get("unit.blocks"));
+
+        options.checkPref("mutl-scatter", false);
+
+        BaseDialog optionsDialog = new BaseDialog("@mutl.title.spawnoptions");
+        optionsDialog.addCloseButton();
+        optionsDialog.cont.add(options);
+
         addCloseButton();
-    }
 
-    public void setup() {
         // Unit selection
         cont.table(Tex.button, t -> {
             t.top().left();
@@ -141,7 +146,7 @@ public class UnitSpawnerDialog extends BaseDialog {
                 t2.defaults().size(60f);
 
                 t2.button("@mutl.spawnunit", this::spawnUnit).width(288f);
-                t2.button(Icon.pencil, options::show).padLeft(6f);
+                t2.button(Icon.pencil, optionsDialog::show).padLeft(6f);
                 t2.button(Icon.info, () -> Vars.ui.content.show(unit)).padLeft(6f);
             }).height(60f);
         }).size(420f);
@@ -161,23 +166,5 @@ public class UnitSpawnerDialog extends BaseDialog {
     public void setPos(float x, float y) {
         this.x = x;
         this.y = y;
-    }
-
-    public static class UnitSpawnerOptions extends BaseDialog {
-        private SettingsTable options;
-
-        public UnitSpawnerOptions() {
-            super("@mutl.title.spawnoptions");
-
-            options = new SettingsTable();
-
-            options.sliderPref("mutl-spawnamount", 1, 1, 100, e -> e + " " + Core.bundle.get("mutl.units"));
-            options.sliderPref("mutl-scatterradius", 40, 0, 450, e -> e + " " + Core.bundle.get("unit.blocks"));
-
-            options.checkPref("mutl-scatter", false);
-
-            cont.add(options);
-            addCloseButton();
-        }
     }
 }
