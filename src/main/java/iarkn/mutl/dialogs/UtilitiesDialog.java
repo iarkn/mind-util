@@ -20,8 +20,8 @@ public class UtilitiesDialog extends BaseDialog {
         tools = new Table(Tex.button);
 
         tools.defaults().size(300f, 60f);
-        tools.button("@mutl.tool.world", Styles.cleart, Index.world::show).disabled(b -> !Vars.state.isGame()).row();
         tools.button("@mutl.tool.unitspawner", Styles.cleart, Index.spawner::show).disabled(b -> !Vars.state.isGame()).row();
+        tools.button("@mutl.tool.world", Styles.cleart, Index.world::show).disabled(b -> !Vars.state.isGame()).row();
 
         cont.table(t -> {
             t.table(Tex.button, t2 -> t2.add("@mutl.header.tools")).grow();
@@ -34,4 +34,3 @@ public class UtilitiesDialog extends BaseDialog {
         addCloseButton();
     }
 }
-

@@ -5,7 +5,8 @@
 A client-side Mindustry mod that contains useful tools or utilities.
 
 [*Wiki*](https://github.com/iarkn/mind-util/wiki)  
-[*Trello*](https://trello.com/b/RR3Os2FB/mind-util)
+[*Trello*](https://trello.com/b/RR3Os2FB/mind-util)  
+[*Discord*](https://discord.gg/mfU3TgfyWg)
 
 ## Installation
 
