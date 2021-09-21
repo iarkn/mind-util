@@ -32,26 +32,31 @@ public class WorldInfoDialog extends BaseDialog {
                     int start = showPreviousWave ? 0 : Vars.state.wave - 1;
                     int end = Vars.state.wave + waveRange;
 
-                    for (int i = start; i < end; i++) {
-                        addWaveRow(p, i);
-                    }
+                    for (int i = start; i < end; i++) addWaveRow(p, i);
                 };
             }).size(390f, 340f);
 
             t.row();
 
             t.table(t2 -> {
-                t2.add("@mutl.wave.range").width(64f).padRight(6f);
+                t2.add("@mutl.wave.range").width(60f).padRight(6f);
                 t2.field(waveRange + "", TextField.TextFieldFilter.digitsOnly, val -> {
                     waveRange = Integer.parseInt(val);
                     waves.run();
-                }).valid(val -> Strings.canParsePositiveInt(val)).width(80f).padRight(12f);
+                }).valid(val -> Strings.canParsePositiveInt(val)).width(120f).padRight(12f);
 
                 t2.check("@mutl.wave.showprev", showPreviousWave, b -> {
                     showPreviousWave = b;
                     waves.run();
                 }).width(190f);
             }).growX().height(60f);
+        }).size(420f);
+
+        if (Core.graphics.isPortrait()) cont.row();
+
+        // General world info
+        cont.table(Tex.button, t -> {
+
         }).size(420f);
 
         Events.on(WorldLoadEvent.class, e -> waves.run());
@@ -66,7 +71,7 @@ public class WorldInfoDialog extends BaseDialog {
 
         table.table(t -> {
             t.left();
-            t.add(wave + 1 + "").color(color).size(60f).padRight(6f);
+            t.add(wave + 1 + "").color(color).size(48f).padRight(18f).get().setAlignment(Align.right);
 
             for (SpawnGroup group : Vars.state.rules.spawns) {
                 // Skip to next group of this one doesn't spawn at this wave

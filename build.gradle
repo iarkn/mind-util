@@ -1,15 +1,10 @@
-import groovy.json.JsonSlurper
-
 apply plugin: 'java'
 
 group 'com.github.iarkn'
 version '1.0'
 
 ext {
-    def json = new JsonSlurper()
-    def mod = json.parse(new File('mod.json'))
-
-    artifactName = "${mod.name}-${mod.version}"
+    artifactName = 'mind-util'
     sdkRoot = System.getenv('ANDROID_SDK_ROOT') ?: System.getenv('ANDROID_HOME')
     // For the special operating system
     requiresSpecialTreatment = System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')
@@ -42,7 +37,7 @@ jar {
 task dex {
     dependsOn 'jar'
 
-    doFirst {
+    doLast {
         exec {
             workingDir "$buildDir/libs"
 
