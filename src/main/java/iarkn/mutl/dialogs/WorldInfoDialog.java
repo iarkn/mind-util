@@ -56,7 +56,7 @@ public class WorldInfoDialog extends BaseDialog {
 
         // General world info
         cont.table(Tex.button, t -> {
-
+            t.add("What do I put in this?").color(Color.gray);
         }).size(420f);
 
         Events.on(WorldLoadEvent.class, e -> waves.run());
