@@ -1,6 +1,7 @@
 package iarkn.mutl;
 
 import arc.*;
+import arc.func.*;
 import arc.input.*;
 import arc.scene.*;
 import arc.scene.ui.layout.*;
@@ -20,6 +21,9 @@ public class Mutl extends Mod {
     public static UnitSpawnerDialog spawner;
     public static UtilitiesDialog util;
 
+    private boolean consoleShown = false;
+    private Boolc toggleConsole;
+
     public Mutl() {
         // Initialize on client load event because Core.scene.getStyle(Class<T> type)
         // might throw an error otherwise
@@ -27,20 +31,40 @@ public class Mutl extends Mod {
             load();
 
             if (Vars.mobile) {
+                var style = Styles.clearTransi;
+
                 WidgetGroup hud = Vars.ui.hudGroup;
                 Table mobile = hud.find("mobile buttons");
 
-                mobile.button(Icon.layers, Styles.clearTransi, () -> {
+                mobile.button(Icon.layers, style, () -> {
                     util.show();
                 }).name("mutl-utilities");
 
-                mobile.button(Icon.terminal, Styles.clearTransi, () -> {
-                    // TODO
+                mobile.button(Icon.terminal, style, () -> {
+                    toggleConsole.get(consoleShown = !consoleShown);
                 }).name("mutl-console");
 
                 mobile.image().color(Pal.gray).width(4f).fill();
                 // Align 'waves/editor' cell to the left
                 ((Table) hud.find("overlaymarker")).getCell(hud.find("waves/editor")).left();
+
+                // Setup script console fragment
+                toggleConsole = shown -> {
+                    var console = Vars.ui.scriptfrag;
+
+                    console.clearChildren();
+
+                    console.table(t -> {
+                        t.bottom().left();
+                        t.defaults().size(48f);
+
+                        t.button(Icon.pencil, style, () -> console.toggle());
+                        t.button(Icon.trash, style, () -> console.clearMessages());
+                        t.button(Icon.left, style, () -> toggleConsole.get(consoleShown = !consoleShown));
+                    });
+
+                    console.visibility = () -> shown;
+                };
             }
         });
 
