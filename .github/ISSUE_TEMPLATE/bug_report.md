@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Contribute by creating a bug report
+about: Contribute by creating a bug report.
 title: "[bug] Insert title here"
 labels: bug
 assignees: ''
