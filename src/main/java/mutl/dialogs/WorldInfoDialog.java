@@ -1,4 +1,4 @@
-package iarkn.mutl.dialogs;
+package mutl.dialogs;
 
 import arc.*;
 import arc.graphics.*;
@@ -34,7 +34,7 @@ public class WorldInfoDialog extends BaseDialog {
 
                     for (int i = start; i < end; i++) addWaveRow(p, i);
                 };
-            }).size(390f, 340f);
+            }).size(390f, 340f).get().setFadeScrollBars(true);
 
             t.row();
 

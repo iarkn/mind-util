@@ -1,4 +1,4 @@
-package iarkn.mutl.dialogs;
+package mutl.dialogs;
 
 import arc.*;
 import arc.math.*;
@@ -64,7 +64,7 @@ public class UnitSpawnerDialog extends BaseDialog {
 
                     if (++r % 6 == 0) p.row();
                 }
-            }).growX();
+            }).growX().get().setFadeScrollBars(true);
         }).size(420f);
 
         if (Core.graphics.isPortrait()) cont.row();
@@ -107,7 +107,7 @@ public class UnitSpawnerDialog extends BaseDialog {
 
                         if (++r % 6 == 0) p.row();
                     }
-                }).growX().padBottom(6f);
+                }).growX().padBottom(6f).get().setFadeScrollBars(true);
 
                 t2.row();
 

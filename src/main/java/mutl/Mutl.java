@@ -1,12 +1,10 @@
-package iarkn.mutl;
+package mutl;
 
 import arc.*;
 import arc.func.*;
 import arc.input.*;
 import arc.scene.*;
 import arc.scene.ui.layout.*;
-
-import iarkn.mutl.dialogs.*;
 
 import mindustry.*;
 import mindustry.game.EventType.*;
@@ -15,11 +13,17 @@ import mindustry.graphics.*;
 import mindustry.mod.*;
 import mindustry.ui.*;
 
+import mutl.dialogs.*;
+import mutl.display.*;
+
 public class Mutl extends Mod {
     public static AboutMutlDialog about;
-    public static WorldInfoDialog world;
     public static UnitSpawnerDialog spawner;
+    public static DisplayDialog display;
+    public static WorldInfoDialog world;
     public static UtilitiesDialog util;
+
+    public static DisplayHandler displayHandler;
 
     private boolean consoleShown = false;
     private Boolc toggleConsole;
@@ -58,8 +62,8 @@ public class Mutl extends Mod {
                         t.bottom().left();
                         t.defaults().size(48f);
 
-                        t.button(Icon.pencil, style, () -> console.toggle());
-                        t.button(Icon.trash, style, () -> console.clearMessages());
+                        t.button(Icon.pencil, style, console::toggle);
+                        t.button(Icon.trash, style, console::clearMessages);
                         t.button(Icon.left, style, () -> toggleConsole.get(consoleShown = !consoleShown));
                     });
 
@@ -75,12 +79,20 @@ public class Mutl extends Mod {
                 }
             });
         }
+
+        Events.run(Trigger.draw, () -> {
+            if (Vars.state.isGame()) displayHandler.draw();
+        });
     }
 
     public void load() {
+        displayHandler = new DisplayHandler();
+        Displays.load(displayHandler);
+
         about = new AboutMutlDialog();
-        world = new WorldInfoDialog();
         spawner = new UnitSpawnerDialog();
+        world = new WorldInfoDialog();
+        display = new DisplayDialog(displayHandler);
         util = new UtilitiesDialog();
     }
 

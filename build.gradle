@@ -6,7 +6,6 @@ version '1.0'
 ext {
     artifactName = 'mind-util'
     sdkRoot = System.getenv('ANDROID_SDK_ROOT') ?: System.getenv('ANDROID_HOME')
-    // For the special operating system
     requiresSpecialTreatment = System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')
 }
 
@@ -16,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor 'com.github.Anuken:jabel:368c91431d9388d0fec7e1a449a0ce3da03b56e8'
+    annotationProcessor 'com.github.Anuken:jabel:0.6.0'
     compileOnly "com.github.Anuken.Mindustry:core:$gameVersion"
     compileOnly "com.github.Anuken.Arc:arc-core:$gameVersion"
 }
@@ -41,18 +40,15 @@ task dex {
         exec {
             workingDir "$buildDir/libs"
 
-            // Collect dependencies needed for desugaring
             def files = (
                 configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList() +
                 [new File("$sdkRoot/platforms/android-$apiLevel/android.jar")]
             )
-            // d8 <classpath ...> --min-api 14 --output <dex.jar> <desktop.jar>
             def args = [
                 'd8', *files.collect { ['--classpath', it.path] }.flatten(),
                 '--min-api', '14', '--output', "$artifactName-dex.jar", "$artifactName-desktop.jar"
             ]
 
-            // Dex and desugar files -- this requires 'd8' in your PATH environment variable
             if (requiresSpecialTreatment) {
                 commandLine 'cmd', '/c', args
             } else {
@@ -86,6 +82,5 @@ tasks.withType(JavaCompile) {
 
     options.encoding = 'UTF-8'
     options.fork = true
-    // If you are not using JDK >= 9, this will not work. But you should be using JDK 16 anyway
     options.compilerArgs += ['-Xlint:all', '--release', '8']
 }

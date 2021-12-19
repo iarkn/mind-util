@@ -1,15 +1,15 @@
-package iarkn.mutl.dialogs;
+package mutl.dialogs;
 
 import arc.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 
-import iarkn.mutl.*;
-
 import mindustry.*;
 import mindustry.gen.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
+
+import mutl.*;
 
 public class UtilitiesDialog extends BaseDialog {
     public Table tools;
@@ -21,7 +21,8 @@ public class UtilitiesDialog extends BaseDialog {
 
         tools.defaults().size(300f, 60f);
         tools.button("@mutl.tool.unitspawner", Styles.cleart, Mutl.spawner::show).disabled(b -> !Vars.state.isGame()).row();
-        tools.button("@mutl.tool.world", Styles.cleart, Mutl.world::show).disabled(b -> !Vars.state.isGame()).row();
+        tools.button("@mutl.tool.display", Styles.cleart, Mutl.display::show).row();
+        tools.button("@mutl.tool.world", Styles.cleart, Mutl.world::show).disabled(b -> !Vars.state.isGame());
 
         cont.table(t -> {
             t.table(Tex.button, t2 -> t2.add("@mutl.header.tools")).grow();

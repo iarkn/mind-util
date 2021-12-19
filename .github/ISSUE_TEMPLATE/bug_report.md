@@ -17,7 +17,7 @@ Steps to reproduce the behavior. Include images or videos if possible.
 A clear and concise description of what you expected to happen.
 
 **Logs**
-The last log and crash log (if you are reporting a crash) in one text file. It can be obtained by going through Settings -> Game Data -> Export Crash Log.
+The last log (and crash log, if there is any) in one text file. It can be obtained by going through Settings -> Game Data -> Export Crash Log. This is required no matter what.
 
 ---
 

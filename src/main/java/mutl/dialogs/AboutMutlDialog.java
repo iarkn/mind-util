@@ -1,4 +1,4 @@
-package iarkn.mutl.dialogs;
+package mutl.dialogs;
 
 import arc.*;
 import arc.graphics.*;
@@ -8,13 +8,15 @@ import mindustry.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 
+import mutl.*;
+
 public class AboutMutlDialog extends Dialog {
 
     public AboutMutlDialog() {
         super("");
 
         cont.table(t -> {
-            t.add("mind-util v" + Vars.mods.getMod("mind-util").meta.version).color(Pal.accent).growX();
+            t.add("mind-util v" + Vars.mods.getMod(Mutl.class).meta.version).color(Pal.accent).growX();
             t.row();
 
             t.add("@mutl.about").color(Color.lightGray).wrap().growX().padTop(6f);
