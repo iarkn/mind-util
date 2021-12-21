@@ -40,9 +40,9 @@ public final class Displays {
 
         handler.add("mutl-unitrange", d -> {
             Units.nearby(null, player.x, player.y, Mathf.dst(camera.width, camera.height), u -> {
-                if (u.team() == player.team() && !d.ally()) return;
-                if (u.team() != player.team() && !d.enemy()) return;
                 if (u == player.unit() && !d.player()) return;
+                if (u != player.unit() && u.team() == player.team() && !d.ally()) return;
+                if (u.team() != player.team() && !d.enemy()) return;
 
                 if (u.dead() || u.type.range <= 0) return;
 
