@@ -1,6 +1,6 @@
 name: Gradle (Push)
 
-on: [ push ]
+on: [push]
 
 jobs:
   build-artifact:
@@ -11,11 +11,11 @@ jobs:
       - name: Set Android SDK build tools
         run: echo "${ANDROID_HOME}/build-tools/30.0.3" >> $GITHUB_PATH
 
-      - name: Set up JDK 16
+      - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
-          java-version: '16'
-          distribution: 'adopt'
+          java-version: '17'
+          distribution: 'temurin'
           cache: 'gradle'
 
       - name: Build mind-util
