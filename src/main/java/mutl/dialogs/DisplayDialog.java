@@ -53,7 +53,7 @@ public class DisplayDialog extends BaseDialog {
 
             displayTable.pane(p -> {
                 p.top().left();
-                p.add(display.info).color(color.lightGray).wrap().growX().padLeft(4f);
+                p.add(display.info).color(Color.lightGray).wrap().growX().padLeft(4f);
             }).growX().height(60f).padTop(4f).get().setFadeScrollBars(true);
 
             displayTable.row();

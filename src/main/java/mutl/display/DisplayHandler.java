@@ -1,5 +1,6 @@
 package mutl.display;
 
+import arc.func.*;
 import arc.graphics.g2d.*;
 import arc.struct.*;
 
@@ -18,8 +19,8 @@ public class DisplayHandler {
         }
     }
 
-    public void add(String name, Runnable run) {
-        add(new Display(name, run));
+    public void add(String name, Cons<Display> cons) {
+        add(new Display(name, cons));
     }
 
     public void add(Display display) {

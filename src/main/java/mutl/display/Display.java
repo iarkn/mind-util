@@ -1,6 +1,7 @@
 package mutl.display;
 
 import arc.*;
+import arc.func.*;
 
 import mindustry.graphics.*;
 
@@ -9,18 +10,23 @@ public class Display {
     public String info;
     /** Visibility options: ally, enemy, player. */
     public boolean[] options = {false, false, false};
-    public float layer = Layer.overlayUI;
+    public float layer;
 
     private int bits = 0;
-    private Runnable run;
+    private Cons<Display> cons;
 
-    Display(String name, Runnable run) {
+    public Display(String name, float layer, Cons<Display> cons) {
         this.name = name;
         this.localizedName = Core.bundle.get("display." + name, name);
         this.info = Core.bundle.getOrNull("display." + name + ".info");
-        this.run = run;
+        this.layer = layer;
+        this.cons = cons;
 
         loadOptions();
+    }
+
+    public Display(String name, Cons<Display> cons) {
+        this(name, Layer.overlayUI, cons);
     }
 
     public boolean enabled() {
@@ -28,7 +34,7 @@ public class Display {
     }
 
     public void run() {
-        run.run();
+        cons.get(this);
     }
 
     private void loadOptions() {
@@ -45,7 +51,7 @@ public class Display {
         }
     }
 
-    public void saveOptions() {
+    private void saveOptions() {
         bits = 0;
 
         for (int i = 0; i < options.length; i++) {
@@ -55,8 +61,19 @@ public class Display {
         Core.settings.put(name, bits);
     }
 
+    public boolean ally() {
+        return getOption(DisplayOption.ALLY);
+    }
+
+    public boolean enemy() {
+        return getOption(DisplayOption.ENEMY);
+    }
+
+    public boolean player() {
+        return getOption(DisplayOption.PLAYER);
+    }
+
     public boolean getOption(DisplayOption option) {
-        loadOptions();
         return options[option.ordinal()];
     }
 
